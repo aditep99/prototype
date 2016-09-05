@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 				options: {
 					script: 'server.js',
 					node_env: 'DEV',
-					debug: true
+					debug: 5850
 				}
 			},
 			dist: {
