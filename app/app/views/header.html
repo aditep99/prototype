@@ -1,0 +1,33 @@
+﻿<!-- /// for show user :: for cr3 :: 23-08-2016 :: xsam32 -->
+<!-- <div class="" id="divUser" style="
+    margin-top: -20px;
+    background-color: orange;
+    position: fixed;
+    z-index: 999;
+">
+    <div class="col-xs-3">xxxx : xxxx</div>
+    <div class="col-xs-3">xxxx : xxxx</div>
+    <div class="col-xs-3">xxxx : xxxx</div>
+    <div class="col-xs-3">xxxx : xxxx</div>
+</div> -->
+
+
+<div class="profile" ng-show="SubNo!='null'">
+    <h5><span ng-hide="showDataDealer">{{data.header["producttype"]}}</span></h5>
+    <h3 ng-hide="showDataDealer"><span ng-show="(Level == 'OU')">OU ID : {{data.priceplan["ouId"]}} </span> <span ng-show="(Level == 'OU') && data.priceplan['ou-hierarchytype']">({{data.priceplan["ou-hierarchytype"]}})</span> </h3>
+    <h3 ng-hide="showDataDealer"><span ng-hide="(Level == 'OU')">{{data.header["subscriberno"]}}</span></h3>
+    <h4 ng-hide="showDataDealer"><span ng-hide="(Action == 'ADD')">{{data.header["currpriceplan"]}}</span></h4>
+    <h4 ng-hide="showDataDealer" style="padding-top: 5px;"><span ng-show="data.priceplan['product-properties']['MAIN-BALANCE'] && divID=='migratePreToPostIBCContent'">หมายเลขเติมเงินนี้มียอดคงเหลือ {{data.priceplan['product-properties']['MAIN-BALANCE'] | number : 2}} บาท</span></h4>
+</div>
+<div class="profile" style="width:50%;" ng-show="SubNo=='null'">
+    <h5 style="padding-top: 5px;"><b>หมายเลขทรูมูฟเอช</b></h5>
+    <div class="row" style="padding-top: 10px;" ng-form="onInputSubNo_reset()">
+        <div class="col-xs-6 text-right">
+            <input type="text" ng-number-only="isNumberSubNo" class="form-control divInputSubno" style="font-size:20px;" id="dataSubNo" ng-model="dataSubNo" ng-keyup="onInputSubNo(); ($event.keyCode==13 && onInputSubNo_reset())" maxlength="10" />
+        </div>
+        <div style="margin-top: 10px;">
+            <span style="color:red" class="hide" ng-span-number-only="isNumberSubNo">กรุณากรอกเฉพาะตัวเลขเท่านั้น</span>
+        </div>
+    </div>
+</div>
+<div id="divPDF2"></div>

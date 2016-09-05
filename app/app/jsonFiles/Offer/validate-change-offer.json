@@ -1,0 +1,77 @@
+{
+  "status": "SUCCESSFUL",
+  "display-messages": [],
+  "trx-id": "4X7GJU4JRQTKI",
+  "process-instance": "tmsapnpr1 (instance: SFF_node3)",
+  "response-data": {
+    "customer": {
+      "title": "นาง",
+      "title-code": "T2",
+      "firstname": "มินตรา",
+      "lastname": "สมหวัง",
+      "customer-type": "I",
+      "contact-number": "0999980638",
+      "contact-mobile-number": "0999980638",
+      "id-type": "I",
+      "id-number": "1189900130607",
+      "id-expire-date": "2016-03-12T00:00:00+0700",
+      "customer-id": "65699",
+      "installed-products": [
+        {
+          "ouId": "38026",
+          "ban": "10067922",
+          "product-category": "TMV",
+          "account-category": "I",
+          "account-sub-type": "FIN",
+          "product-id": "",
+          "company-code": "RF",
+          "subscriber-id": "102687",
+          "address-list": {
+            "TAX_ADDRESS": {
+              "number": "55",
+              "moo": "9",
+              "street": "บางกระสอ",
+              "soi": "",
+              "district": "เมืองนนทบุรี",
+              "province": "นนทบุรี",
+              "building-name": "",
+              "building-room": "",
+              "building-floor": "",
+              "sub-district": "บางกระสอ",
+              "zip": "11000",
+              "household": "55"
+            }
+          },
+          "product-id-name": "MSISDN",
+          "product-id-number": "0999980638",
+          "mobile-servicetype": "POSTPAID",
+          "has-splitcharge": false,
+          "is-childsim": false,
+          "is-softsuspend": false,
+          "ou-hierarchytype": "NORMAL",
+          "parent-ouId": ""
+        }
+      ],
+      "address-list": {
+        "CUSTOMER_ADDRESS": {
+          "number": "55",
+          "moo": "9",
+          "street": "บางกระสอ",
+          "soi": "",
+          "district": "เมืองนนทบุรี",
+          "province": "นนทบุรี",
+          "building-name": "",
+          "building-room": "",
+          "building-floor": "",
+          "sub-district": "บางกระสอ",
+          "zip": "11000",
+          "household": "55"
+        }
+      },
+      "customer-properties": {
+        "BILL-CYCLE": "10",
+        "BILL-CYCLE-DESCRIPTION": "Monthly Cycle close on the 9"
+      }
+    }
+  }
+}
