@@ -15,6 +15,50 @@
             <div class="content-body">
                 <div ng-include="template.customerprofile" onload="onCustomerProfileTemplateLoaded()"></div>
 
+                <!-- Multi SIM -->
+                <div>
+                    <h4>Multi SIM</h4>
+                    <div class="well" style="background-color:#ffffff;">
+                        <div class="row">
+                            <h4>ซิมหลัก (Master SIM)</h4>
+                        </div>
+                        <div class="row">
+                            <span ng-repeat="item in multiSim['master-sim']">
+                                <span class="col-xs-6">
+                                    <label>
+                                        <input type="radio" name="masterSim" 
+                                        value="item['product-name']}}" ng-model="multiSim">{{item['product-name']}}
+                                        <br /> {{item['sim-serial']}}
+                                    </label>
+                                    <br ng-show="($index+1)%2==0">
+                                </span>
+                            </span>
+                        </div>
+
+                        <div class="row">
+                        
+                            <h4>ซิมเสริม (Minor SIM)</h4>
+                        </div>
+                        <div class="row">
+                            <span ng-repeat="item in multiSim['minor-sim']">
+                                <span class="col-xs-6">
+                                    <label>
+                                        <input type="radio" name="minorSim" 
+                                        value="item['product-name']}}" ng-model="multiSim">{{item['product-name']}}
+                                        <br /> {{item['sim-serial']}}
+                                    </label>
+                                    <br ng-show="($index+1)%2==0">
+                                </span>
+                            </span>
+                        </div>
+                        
+                    </div>
+
+                    
+
+                </div>
+                <!-- End Multi SIM -->
+
                 <div class="row">
                     <div class="col-md-6" style="margin-top:-10px;">
                         <h4>ข้อมูลปัจจุบัน</h4>

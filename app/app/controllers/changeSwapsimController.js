@@ -872,6 +872,61 @@
 
 
     };
+
+// Multi Sim
+
+$scope.multiSim = {
+    "master-sim" : [
+        {
+            "product-name" : "iPhone 6 Nan",
+            "sim-serial" : "896600401500009000"
+        },
+         {
+            "product-name" : "iPhone 6 Plus",
+            "sim-serial" : "896600401500009001"
+        }
+
+    ],
+
+    "minor-sim" : [
+       {
+            "product-name" : "iPad for kid1",
+            "sim-serial" : "896600401500004545"
+        },
+        {
+            "product-name" : "มิเตอร์ไฟบ้าน",
+            "sim-serial" : "896600401500008991"
+        },
+        {
+            "product-name" : "iPad for kid2",
+            "sim-serial" : "896600401500008999"
+        },
+        {
+            "product-name" :  "มิเตอร์ไฟคอนโด",
+            "sim-serial" : "896600401500007000"
+        },
+        {
+            "product-name" : "นาฬิกาพ่อ",
+            "sim-serial" : "896600401500008990"
+        },
+        {
+            "product-name" : "ประตูบ้านใหญ่",
+            "sim-serial" : "896600401500007888"
+        },
+        {
+            "product-name" : "นาฬิกาแม่",
+            "sim-serial" : "896600401500008991"
+        },
+        {
+            "product-name" : "ประตูบ้านเล็ก",
+            "sim-serial" : "896600401500002345"
+        }
+
+    ],
+};
+
+
+
 });
 
 // TODO: Each function in sharedServices should be moved to another file
@@ -936,8 +991,5 @@ smartApp.service('sharedServices', function($timeout, SystemService) {
             }, 1000);
         }
     };
-
-
-
 
 });

@@ -13,29 +13,12 @@ smartApp.config(function($routeProvider, $httpProvider) {
         controller: 'HomeController'
     }).when('/changeStatus', {
         templateUrl: 'app/views/changeStatus.html?v=' + runTime
-    })
-
-    .when('/product', {
+    }).when('/product', {
         templateUrl: 'app/views/productlist.html?v=' + runTime,
         controller: 'ProductController'
     }).when('/changePricePlan', {
         templateUrl: 'app/views/changePricePlan.html?v=' + runTime,
         controller: 'ChangePricePlanController'
-    }).when('/changePricePlan/:id/:oulevel/:ouid/:subno/:shopType', {
-        templateUrl: 'app/views/changePricePlan.html?v=' + runTime,
-        controller: 'ChangePricePlanController'
-    }).when('/changeOwnershipI', {
-        templateUrl: 'app/views/changeOwnershipIBC.html?v=' + runTime,
-        controller: 'changeOwnershipIBCController'
-    }).when('/changeOwnership', {
-        templateUrl: 'app/views/changeOwnershipIBC.html?v=' + runTime,
-        controller: 'changeOwnershipIBCController'
-    }).when('/changeOwnershipIBC', {
-        templateUrl: 'app/views/changeOwnershipIBC.html?v=' + runTime,
-        controller: 'changeOwnershipIBCController'
-    }).when('/changeOwnership/:id/:subno', {
-        templateUrl: 'app/views/changeOwnershipIBC.html?v=' + runTime,
-        controller: 'changeOwnershipIBCController'
     }).when('/changeIRIDD', {
         templateUrl: 'app/views/changeIRIDD.html?v=' + runTime,
         controller: 'ChangeIRIDDController'
@@ -44,53 +27,18 @@ smartApp.config(function($routeProvider, $httpProvider) {
         templateUrl: 'app/views/changeIRIDD.html?v=' + runTime,
         controller: 'ChangeIRIDDController'
 
-    }).when('/suspend/:ID/:SubNo/:shopType', {
-        templateUrl: 'app/views/changeSuspend.html?v=' + runTime,
-        controller: 'ChangeSuspendController'
-    }).when('/suspend', {
-        templateUrl: 'app/views/changeSuspend.html?v=' + runTime,
-        controller: 'ChangeSuspendController'
-    }).when('/restore/:ID/:SubNo/:shopType', {
-        templateUrl: 'app/views/changeRestore.html?v=' + runTime,
-        controller: 'ChangeRestoreController'
-    }).when('/restore', {
-        templateUrl: 'app/views/changeRestore.html?v=' + runTime,
-        controller: 'ChangeRestoreController'
-    })
-
-    .when('/cancel', {
-            templateUrl: 'app/views/cancel.html?v=' + runTime,
-            controller: 'CancelController'
-        })
-        .when('/cancel/:id/:subno/:shopType', {
-            templateUrl: 'app/views/cancel.html?v=' + runTime,
-            controller: 'CancelController'
-        })
-
-    .when('/changeSwapSim/:id/:subno', {
+    }).when('/changeSwapSim/:id/:subno', {
         templateUrl: 'app/views/changeSwapSim.html?v=' + runTime,
         controller: 'ChangeSwapSimController'
 
     }).when('/changeSwapSim', {
         templateUrl: 'app/views/changeSwapSim.html?v=' + runTime,
         controller: 'ChangeSwapSimController'
-
-    }).when('/migratePostToPre/:id/:subno', {
-        templateUrl: 'app/views/migratePostToPre.html?v=' + runTime,
-        controller: 'MigratePostToPreController'
-
-    }).when('/migratePostToPre', {
-        templateUrl: 'app/views/migratePostToPre.html?v=' + runTime,
-        controller: 'MigratePostToPreController'
-
-    }).when('/resume/:id/:subno', {
-        templateUrl: 'app/views/changeResume.html?v=' + runTime,
-        controller: 'ResumeController'
-
-    }).when('/resume', {
-        templateUrl: 'app/views/changeResume.html?v=' + runTime,
-        controller: 'ResumeController'
-
+    
+    }).when('/multiSim', {
+        templateUrl: 'app/views/multiSim.html?v=' + runTime,
+        controller: 'MultiSimController'
+    
     }).when('/sale', {
         templateUrl: 'app/views/sale.html?v=' + runTime,
         controller: 'SaleController'
@@ -149,41 +97,8 @@ smartApp.config(function($routeProvider, $httpProvider) {
     }).when('/allProduct', {
         templateUrl: 'app/views/allProduct.html?v=' + runTime,
         controller: 'AllproductController'
-    }).when('/migratePreToPost/:id/:subno/:shopType', {
-        templateUrl: 'app/views/migratePreToPostIBC.html?v=' + runTime,
-        controller: 'MigratePreToPostIBCController'
-    }).when('/migratePreToPostIBC', {
-        templateUrl: 'app/views/migratePreToPostIBC.html?v=' + runTime,
-        controller: 'MigratePreToPostIBCController'
-    }).when('/migratePreToPost', {
-        templateUrl: 'app/views/migratePreToPostIBC.html?v=' + runTime,
-        controller: 'MigratePreToPostIBCController'
-    }).when('/changeMsisdn', {
-        templateUrl: 'app/views/changeMsisdn.html?v=' + runTime,
-        controller: 'ChangeMsisdnController'
-    }).when('/createCug', {
-        templateUrl: 'app/views/createCug.html?v=' + runTime,
-        controller: 'CreateCugController'
-    }).when('/addDeleteEditOffer', {
-        templateUrl: 'app/views/addDeleteEditOffer.html?v=' + runTime,
-        controller: 'AddDeleteEditOfferController'
-    }).when('/addDeleteEditOfferNew', {
-        templateUrl: 'app/views/addDeleteEditOfferNew.html?v=' + runTime,
-        controller: 'AddDeleteEditOfferNewController'
-    }).when('/changeOwnershipPrepaid', {
-        templateUrl: 'app/views/changeOwnershipPrepaid.html?v=' + runTime,
-        controller: 'ChangeOwnershipPrepaidController'
-    }).when('/changePricePlanForIE8', {
-        templateUrl: 'app/views/changePricePlanForIE8.html?v=' + runTime,
-        controller: 'ChangePricePlanForIE8Controller'
-    }).when('/orderMonitor', {
-        templateUrl: 'app/views/monitorOrder.html?v=' + runTime,
-        controller: 'MonitorOrderController'
     });
 
-    // $routeProvider.otherwise({
-    //     redirectTo: '/home'
-    // });
 });
 
 //TODO unique
@@ -192,13 +107,6 @@ smartApp.filter('unique', function() {
         var output = [],
             keys = [];
 
-        // angular.forEach(collection, function(item) {
-        //     var key = item[keyname];
-        //     if(keys.indexOf(key) === -1) {
-        //         keys.push(key);
-        //         output.push(item);
-        //     }
-        // });
         var keyItem = "XYZZXY";
         for (var i = 0; i < collection.length; i++) {
             var item = collection[i];
@@ -229,15 +137,6 @@ smartApp.factory('smartUIHttpInterceptor', function($q, $rootScope) {
             return response || $q.when(response);
         },
 
-        // responseError : function(response) {
-        // console.log("responseError");
-        // var msg = response.status + ' ' + response.statusText;
-        // if (msg == '0 error' || msg == '200 OK') {
-        // location.reload();
-        // }
-        //
-        // return $q.reject(response);
-        // }
         responseError: function(response) {
             console.log("responseError");
             if (response.status === 0) {
@@ -305,13 +204,7 @@ smartApp
                         .keypress(function(e) {
                             //alert(this.value);
                             var charCode = (e.which) ? e.which : e.keyCode;
-                            // if (this.value.indexOf(".") >= 0) {
-                            //     if (charCode == 46) {
-                            //         // show msg
-                            //         showSpan();
-                            //         return false;
-                            //     }
-                            // }
+
                             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                                 // show msg
                                 showSpan();
@@ -580,25 +473,3 @@ smartApp
                 }
             };
         });
-
-// smartApp.directive('ngEnter', function () {
-// return function (scope, element, attrs) {
-// element.bind("keydown keypress", function (event) {
-// if (event.which === 13) {
-// scope.$apply(function () {
-// scope.$eval(attrs.ngEnter);
-// });
-
-// event.preventDefault();
-// }
-// });
-// };
-// });
-
-// smartApp.run(['smartCardReaderService', function (smartCardReaderService) {
-// smartCardReaderService.readCard();
-// }]);
-
-// smartApp.run(function (AuthenService) {
-
-// });

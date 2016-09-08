@@ -1,15 +1,10 @@
-<div class="container" id="changeIRIDDContent" ng-init="onLoad()">
+<div class="container" id="changeIRIDDContent" ng-init="onLoad(); init()">
     <div class="content-top">
     </div>
     <div class="content m_content">
         <div class="col-md-1"></div>
         <div class="col-md-11">
             <div ng-include="template.header"></div>
-            <!-- <object id="idPdfObject" width="440" height="440" style="width: 440px; height: 440px;" type="application/pdf" data="PDFs/hello.pdf">
-                <embed src="PDFs/hello.pdf" width="440" height="580" style="width: 440px; height: 580px;" type="application/pdf">
-                </embed>
-                <span>PDF plugin is not available.</span>
-            </object> -->
             <div class="clearfix"></div>
             <h1 class="content-title">บริการ IR/IDD</h1>
             <div class="content-body">
@@ -19,10 +14,10 @@
                 <div class="well" style="background-color:#ffffff;">
                     <div class="row">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">
+                            <label class="col-md-2 control-label">
                                 <h4>บริการ IR/IDD</h4>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div data-toggle="buttons" class="btn-group btn-group-justified">
                                     <label class="btn btn-default active" id="labelAdd" ng-click="changereqType('ADD_IRIDD')">
                                         <input type="radio" ng-model="data.orderRequest['order']['order-items'][0]['name']" value="ADD_IRIDD"> เปิดบริการ
@@ -30,20 +25,23 @@
                                     <label class="btn btn-default" ng-click="changereqType('REMOVE_IRIDD')">
                                         <input type="radio" ng-model="data.orderRequest['order']['order-items'][0]['name']" value="REMOVE_IRIDD"> ยกเลิกบริการ
                                     </label>
+                                    <label class="btn btn-default" ng-click="changereqType('SIM_IRIDD')">
+                                        <input type="radio" ng-model="data.orderRequest['order']['order-items'][0]['name']" value="SIM_IRIDD"> ระบุซิมที่ใช้บริการ IR
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-9">
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label class="col-md-4 control-label">
-                                    <h4>{{(requestType == 'ADD_IRIDD') ? 'ขอเปิดบริการ' : 'ยกเลิกบริการ'}}</h4>
+                                    <h4 ng-hide="requestType  == 'SIM_IRIDD'">{{(requestType == 'ADD_IRIDD') ? 'ขอเปิดบริการ' : 'ยกเลิกบริการ'}}</h4>
                                 </label>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <h4>
+                            <h4 ng-hide="requestType  == 'SIM_IRIDD'">
                                 <span ng-show="isShowApproveRal" style="color: red; font-size: 12px;">* Approve code by referral*</span>
                             </h4>
                         </div>
@@ -52,38 +50,26 @@
                         <div class="col-md-5">
                             <div class="checkbox checkbox-circle2 checkbox-inline">
                                 <input ng-checked="checkIDD" ng-model="changIDD" id="chkChangIDD" ng-disabled="isSubIDDNo" type="checkbox" class="styled" ng-change="iddChecked()">
-                                <label for="chkChangIDD">{{(requestType == 'ADD_IRIDD') ? '' : 'ยกเลิก'}}บริการโทรศัพท์ระหว่างประเทศผ่าน กสทช (IDD)</label>
+                                <label for="chkChangIDD">{{(requestType == 'ADD_IRIDD'  || requestType  == 'SIM_IRIDD') ? '' : 'ยกเลิก'}}บริการโทรศัพท์ระหว่างประเทศผ่าน กสทช (IDD)</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="checkbox checkbox-circle2 checkbox-inline">
-                                <input ng-checked="checkIR" ng-model="changIR" id="chkChangeIR" ng-disabled="isSubIRNo" type="checkbox" class="styled" ng-change="irChecked()">
-                                <label for="chkChangeIR">{{(requestType == 'ADD_IRIDD') ? '' : 'ยกเลิก'}}บริการโทรข้ามแดนระหว่างประเทศ (IR)</label>
+                                <input ng-checked="checkIR || requestType  == 'SIM_IRIDD'" ng-model="changIR" id="chkChangeIR" ng-disabled="isSubIRNo ||requestType  == 'SIM_IRIDD'" type="checkbox" class="styled" ng-change="irChecked()">
+                                <label for="chkChangeIR">{{(requestType == 'ADD_IRIDD'  || requestType  == 'SIM_IRIDD') ? '' : 'ยกเลิก'}}บริการโทรข้ามแดนระหว่างประเทศ (IR)</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" name="referralcodes" ng-model="data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE']" ng-blur="onCheckValidateApproveCode()" ng-keyup="($event.keyCode==13 && onCheckValidateApproveCode())" id="referralcodes" maxlength="10" placeholder="" ng-show="isShowApproveRal" ng-disabled="isValidateSave" class="form-control" required>
+                                <input type="text" name="referralcodes" ng-model="data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE']" ng-blur="onCheckValidateApproveCode()" ng-keyup="($event.keyCode==13 && onCheckValidateApproveCode())" id="referralcodes" maxlength="10" placeholder="" ng-show="isShowApproveRal && requestType  != 'SIM_IRIDD'" ng-disabled="isValidateSave" class="form-control" required>
                             </div>
-                            <!--<div class="form-group" ng-form="onCheckValidateApproveCode()">
-                                <input type="text"
-                                       name="referralcodes"
-                                       ng-model="data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE']"
-                                       ng-keyup="$event.keyCode==13 && onCheckValidateApproveCode()"
-                                       ng-blur="onCheckValidateApproveCode()"
-                                       maxlength="10"
-                                       placeholder=""
-                                       ng-show="isShowApproveRal"
-                                       ng-disabled="isValidateSave"
-                                       class="form-control" required>
-                            </div>-->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             &nbsp;
                         </div>
-                        <div class="col-md-4" ng-show="changIR==true && isSubIRNo != true && requestType != 'REMOVE_IRIDD'">
+                        <div class="col-md-4" ng-show="changIR==true && isSubIRNo != true && requestType != 'REMOVE_IRIDD' && requestType  != 'SIM_IRIDD'">
                             <h4>
                                 <span style="font-size: 12px;">Offer Code</span>
                             </h4>
@@ -91,11 +77,12 @@
                         <div class="col-md-3">
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-5">
                             &nbsp;
                         </div>
-                        <div class="col-md-4" ng-show="changIR==true && isSubIRNo != true && requestType != 'REMOVE_IRIDD'" ng-disabled="checkIR==true">
+                        <div class="col-md-4" ng-show="changIR==true && isSubIRNo != true && requestType != 'REMOVE_IRIDD'&& requestType  != 'SIM_IRIDD'" ng-disabled="checkIR==true">
                             <select ng-model="offerGroup" id="offerGroup" ng-change="onSelectOffer()" class="form-control">
                                 <!--<option>เลือก</option>-->
                                 <option ng-repeat="option in data.offerGroupList | filter:{'offer-group': 'IR'}" value="{{option['soc-name']}}">{{option['soc-name']}} : {{option['description']}}</option>
@@ -113,6 +100,52 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Multi SIM -->
+                <div ng-show="changIR || requestType  == 'SIM_IRIDD'">
+                    <h4>Multi SIM</h4>
+                    <div class="well" style="background-color:#ffffff;">
+                        <div class="row">
+                            <h4>ซิมหลัก (Master SIM)</h4>
+                        </div>
+                        <div class="row">
+                            <span ng-repeat="item in multiSim['master-sim']">
+                                <span class="col-xs-6">
+                                    <div class="checkbox checkbox-circle2 checkbox-inline">
+                                        <input ng-checked="checkMasterSim" ng-model="chkMasterSim" id="{{item['sim-serial']}}" name="{{item['sim-serial']}}" ng-disabled="isSubIRNo" type="checkbox" class="styled">
+                                        <label for="{{item['sim-serial']}}">{{item['product-name']}}
+                                            <br /> {{item['sim-serial']}}
+                                        </label>
+                                    </div>
+                                    <br ng-show="($index+1)%2==0">
+                                </span>
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <h4>ซิมเสริม (Minor SIM)</h4>
+                        </div>
+                        <div class="row">
+                            <span ng-repeat="item in multiSim['minor-sim']">
+                                <span class="col-xs-6">
+                                    <div class="checkbox checkbox-circle2 checkbox-inline">
+                                        <input ng-checked="checkMinorSim" ng-model="chkMinorSim" id="{{item['sim-serial']}}" name="{{item['sim-serial']}}" ng-disabled="isSubIRNo" type="checkbox" class="styled">
+                                        <label for="{{item['sim-serial']}}">{{item['product-name']}}
+                                            <br /> {{item['sim-serial']}}
+                                        </label>
+                                    </div>
+                                    <br ng-show="($index+1)%2==0">
+                                </span>
+                            </span>
+                        </div>
+                        
+                    </div>
+
+                    
+
+                </div>
+                <!-- End Multi SIM -->
+
                 <!--<div ng-include="template.reasonmemo" scope="" onload=""></div>-->
                 <h4>บันทึกและเหตุผล</h4>
                 <div class="well">
@@ -141,33 +174,34 @@
                 .divCorperate {
                     width: 80%;
                 }
-                
-                
                 </style>
-                <h4>มีผลเมื่อ </h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div data-toggle="buttons" id="divEffer" class="btn-group btn-group-justified">
-                            <label id="efferNow" class="btn btn-default hidden" onclick="$('.date-picker-start').val('');" ng-click="onEffectiveDate('IMMEDIATE')" style="width: 50%">
-                                <input type="radio" name="date" autocomplete="off" class="radio_ck" checked> ทันที
-                            </label>
-                            <label id="efferNext" class="btn btn-default hidden" onclick="$('.date-picker-start').val('');" ng-click="onEffectiveDate('NEXTBILL')">
-                                <input type="radio" name="date" autocomplete="off" class="radio_ck"> รอบบิลถัดไป {{saveData['nextBillDate']}}
-                            </label>
-                            <label id="efferManual" class="btn btn-default form-group has-feedback hidden" ng-click="onEffectiveDate('FUTURE')" style="width: 50%">
-                                <div class="form-group has-feedback">
-                                    <div class="col-xs-3">
-                                        <span class="col-xs-2" style="float: right; top: 14px; margin-top:-8px;">ระบุวันที่ </span>
-                                        <input type="radio" name="date" autocomplete="off" clastyle="float: right; top: 14px; margin-top:-8px;" s="enable_tb col-xs-8" value="specify">
-                                    </div>
-                                    <div class="col-xs-7" style="margin-top:-5px; margin-bottom:-5px;">
-                                        <div class="form-group has-feedback imp" style="top:5px;">
-                                            <input id="txtDateManual" style="height:30px;" type="text" ng-model="saveData['manualBillDate']" class="form-control dateManual date-picker-start dateFormat">
-                                            <span class="form-control-feedback is-bound"><i class="fa fa-calendar"></i></span>
+
+                <div ng-hide="data.orderRequest['order']['order-items'][0]['name'] == 'SIM_IRIDD'" >
+                    <h4>มีผลเมื่อ </h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-toggle="buttons" id="divEffer" class="btn-group btn-group-justified">
+                                <label id="efferNow" class="btn btn-default hidden" onclick="$('.date-picker-start').val('');" ng-click="onEffectiveDate('IMMEDIATE')" style="width: 50%">
+                                    <input type="radio" name="date" autocomplete="off" class="radio_ck" checked> ทันที
+                                </label>
+                                <label id="efferNext" class="btn btn-default hidden" onclick="$('.date-picker-start').val('');" ng-click="onEffectiveDate('NEXTBILL')">
+                                    <input type="radio" name="date" autocomplete="off" class="radio_ck"> รอบบิลถัดไป {{saveData['nextBillDate']}}
+                                </label>
+                                <label id="efferManual" class="btn btn-default form-group has-feedback hidden" ng-click="onEffectiveDate('FUTURE')" style="width: 50%">
+                                    <div class="form-group has-feedback">
+                                        <div class="col-xs-3">
+                                            <span class="col-xs-2" style="float: right; top: 14px; margin-top:-8px;">ระบุวันที่ </span>
+                                            <input type="radio" name="date" autocomplete="off" clastyle="float: right; top: 14px; margin-top:-8px;" s="enable_tb col-xs-8" value="specify">
+                                        </div>
+                                        <div class="col-xs-7" style="margin-top:-5px; margin-bottom:-5px;">
+                                            <div class="form-group has-feedback imp" style="top:5px;">
+                                                <input id="txtDateManual" style="height:30px;" type="text" ng-model="saveData['manualBillDate']" class="form-control dateManual date-picker-start dateFormat">
+                                                <span class="form-control-feedback is-bound"><i class="fa fa-calendar"></i></span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </label>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,9 +217,6 @@
                         </div>
                         <div class="modal-body modalBodyDivStyle">
                             <h4 id="loadingPrint" style="width=100%;text-align:center;display:none;">กำลังพิมพ์...</h4>
-                            <!-- test for android:
-                            <iframe id="gviewPDF" src="http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
-                            ------------ -->
                             <iframe class="modalBodyIframeStyle" id="iframePDF" name="iframePDF" frameborder="0" scrolling="yes">
                                 <p>It appears your web browser doesn't support iframes.</p>
                             </iframe>
@@ -213,22 +244,7 @@
             </div>
             <div class="col-md-12 form-buttons">
                 <div class="form-group">
-                    <!--<input ng-show="shopType=='0'"
-                           ng-click="printOrder()"
-                           ng-disabled="!isValidateSave"
-                           type="button"
-                           href="#modal-pdf"
-                           value="พิมพ์"
-                           onclick="setTimeout(function () { document.getElementById('iframePDF').src = 'PDFs/AfterSaleReport.pdf' }, 500); "
-                           data-toggle="modal" class="btn btn-success">
-                    <input ng-show="shopType=='1'"
-                           ng-click="printOrder()"
-                           ng-disabled="!isValidateSave"
-                           type="button"
-                           href="#modal-pdf"
-                           value="พิมพ์"
-                           onclick="setTimeout(function () { document.getElementById('iframePDF').src = 'PDFs/AfterSaleReport.pdf' }, 500); setTimeout(function () { document.getElementById('iframePDF').src = 'javascript:window.print();' }, 2000); setTimeout(function () { document.getElementById('iframePDF').src = 'PDFs/AfterSaleReport.pdf' }, 2500);"
-                           data-toggle="modal" class="btn btn-success">-->
+                    
                     <button type="button" href="#modal-pdf" ng-click="prePrintOrder()" data-toggle="{{attModalVal}}" class="btn btn-success" id="btnValidatePrint" disabled="disabled">
                         พิมพ์
                     </button>

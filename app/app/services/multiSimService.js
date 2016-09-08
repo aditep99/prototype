@@ -1,4 +1,4 @@
-﻿smartApp.service('changeIRIDDService', function($filter, SystemService, $routeParams) {
+﻿smartApp.service('multiSimService', function($filter, SystemService, $routeParams) {
     var demo = SystemService.demo;
     var validateIRIDDAPI = function(msisdn, fnCallback) {
 

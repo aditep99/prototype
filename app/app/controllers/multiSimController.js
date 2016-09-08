@@ -1,9 +1,9 @@
 // ---------------------- ChangeOwnershipController.js ----------------------
-smartApp.controller('ChangeIRIDDController', function($scope,
+smartApp.controller('MultiSimController', function($scope,
     $filter,
     SystemService,
     $routeParams,
-    changeIRIDDService,
+    multiSimService,
     ReasonService,
     AuthenService,
     ValidateMsgService,
@@ -38,14 +38,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
     //// for send data readcard to page :: 1-08-2016 :: xsam32
     $scope.readCardID_URL = $routeParams["readcard-id"] ? $routeParams["readcard-id"] : 'null';
 
-    //$scope.lspromoType = {
-    //    "0": "เลือก",
-    //    "1": "PROECT1",
-    //    "2": "PROROAM2",
-    //    "3": "PROROAM2S",
-    //};
-    //$scope.promoType = "3";
-
     $scope.hideReadCardForMobile = function() {
         SystemService.hideReadCardForMobile();
     };
@@ -79,10 +71,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         }
     };
     ReasonService.list("78", function(result) {
-        //$scope.reasons = result;
-        //$scope.reason = $scope.reasons[86];
-        //$scope.selectReason = $scope.reasons[86];
-        //solution for none fix index
         $scope.reasons = result;
         $scope.setDefualtReason($scope.reasons, "C16");
         //solution for none fix index
@@ -150,31 +138,14 @@ smartApp.controller('ChangeIRIDDController', function($scope,
                         "message-type": "ERROR",
                         "en-message": result.error,
                         "th-message": "",
-                        "technical-message": "changeIRIDDController"
+                        "technical-message": "multiSimController"
                     });
                 }
             });
         }
 
-        //confirm
-        //SystemService.showBeforeClose({
-        //    "message": "รายการคำขอเลขที่ OR30935 ",
-        //    "message2": "ได้รับข้อมูลเรียบร้อยแล้ว",
-        //});
-        //SystemService.showConfirm().then(function (value) {
-
-        //}, function (reason) {
-        //    //cancel
-
-        //});
     };
     $scope.openSSO = function() {
-        //var new_window = window.open('', "MsgWindow", "width=320, height=240");
-        //new_window.onbeforeunload = function () {
-        //    alert('close');
-        //}
-        //var new_window = window.open("", "MsgWindow", "width=800, height=600");
-        //new_window.onbeforeunload = function () { alert('close'); }
 
         var openDialog = function(uri, name, options, closeCallback) {
             var win = window.open(uri, name, options);
@@ -250,7 +221,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         $scope.changereqType('ADD_IRIDD');
     };
 
-    ////$scope.nextBillDate = SystemService.getNextBillDate();
     $scope.readCardError = function(msg) {
         $.fancybox.close();
         SystemService.showAlert({
@@ -259,7 +229,7 @@ smartApp.controller('ChangeIRIDDController', function($scope,
             "message-type": "WARNING",
             "en-message": msg,
             "th-message": msg,
-            "technical-message": "changeIRIDDController"
+            "technical-message": "multiSimController"
         });
     };
     $scope.initModalReadCard = function() {
@@ -326,10 +296,7 @@ smartApp.controller('ChangeIRIDDController', function($scope,
             }, 1500);
             $scope.isManualReadCard = false;
         }
-        //SystemService.get("0689100006", function (result) {
-        //    $scope.data = result.data;
-        //    $scope.isReadCardSuccess = true;
-        //});
+
     $scope.isInputSubNo = false;
     $scope.onInputSubNo = function() {
         console.log($('#dataSubNo').val().length, $scope.isInputSubNo);
@@ -353,10 +320,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         //console.log(charCode);
         var bool = SystemService.checkInputTel(charCode);
         $scope.isNumberSubNo = !bool;
-        //setTimeout(function () {
-        //    $scope.isNumberSubNo = false;
-        //    $('#idBindDataAgain').click();
-        //}, 3000);
         $scope.autoHideNumberSubNo = false;
         return bool;
     }
@@ -389,10 +352,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
             $('#unMatch').show();
             $scope.isMatch = false;
         }
-        ///$scope.ReadCardMockUp($scope.cardInfo.CitizenID);
-        //console.log(result);
-        //console.log(result.CitizenID);
-
     };
 
     $scope.isCitizenID2 = true;
@@ -416,11 +375,8 @@ smartApp.controller('ChangeIRIDDController', function($scope,
 
         $('#CitizenID2').val($scope.cardInfo2.CitizenID);
         $('#authorizeFullName').val($scope.cardInfo2.PrefixTH + "" + $scope.cardInfo2.FirstNameTH + "  " + $scope.cardInfo2.LastNameTH);
-        //$scope.CitizenID2 = $scope.cardInfo2.CitizenID;
-        //$scope.authorizeFullName = $scope.cardInfo2.PrefixTH + "" + $scope.cardInfo2.FirstNameTH + "  " + $scope.cardInfo2.LastNameTH;
     }
 
-    //$scope.isManualReadCard = true;
     $scope.onInputId = function() {
         //console.log($('#CitizenID').val().length);
         var cid = $('#CitizenID').val();
@@ -428,8 +384,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         if (cid.length >= 3) {
             if (cid == $scope.data2.customerProfile["id-number"]) {
                 $scope.showDataDealer = false;
-                //document.getElementById('btnReadCardClose2').click();
-                //$("#btnForm").fancybox().close();
                 $scope.isCustomerProfile = true;
                 $.fancybox.close();
                 $scope.isReadCardSuccess = false;
@@ -444,7 +398,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
             }
 
         }
-      
     }
 
     $scope.requestType = "ADD_IRIDD";
@@ -452,7 +405,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
     $scope.changIDD = false;
     $scope.changIR = false;
     $scope.checkIDD = false;
-    //$scope.checkIR = false;
 
     $scope.requestTypeDB = "";
 
@@ -467,7 +419,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         }, 100);
         $scope.requestType = requestType;
         $scope.data.orderRequest['order']['order-items'][0]['name'] = requestType;
-        //console.log($scope.data.orderRequest);
 
         if ($scope.requestType == "REMOVE_IRIDD") { //ยกเลิก บริการ
             if ($scope.requestTypeDB == "IDD") { //สมัคร IDD ไว้แล้ว
@@ -717,14 +668,7 @@ smartApp.controller('ChangeIRIDDController', function($scope,
                         if (resultData.data.status == "SUCCESSFUL") {
                             $scope.isValidateSave = true;
                             SystemService.hideLoading();
-                            //SystemService.showAlert({
-                            //    "message": "SUCCESSFUL",
-                            //    "message-code": "",
-                            //    "message-type": "SUCCESSFUL",
-                            //    "en-message": "",
-                            //    "th-message": "",
-                            //    "technical-message": "changeIRIDDController"
-                            //});
+
                         } else {
                             //$scope.data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE'] = "";
                             $scope.isValidateSave = false;
@@ -744,18 +688,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
         }
 
     };
-    ////init();
-    //$ngBootbox.customDialog({
-    //    templateUrl: 'app/views/ngBootbox-template.html?v=' + runTime,
-    //    onEscape: function () {
-    //        return false;
-    //    },
-    //    show: true,
-    //    backdrop: false,
-    //    closeButton: false,
-    //    animate: true
-    //});
-
 
     //call print
     $scope.attModalVal = "";
@@ -1039,9 +971,6 @@ smartApp.controller('ChangeIRIDDController', function($scope,
                         }, 2000);
                     }
 
-
-
-
                 });
             }
         }
@@ -1192,23 +1121,7 @@ smartApp.controller('ChangeIRIDDController', function($scope,
 
 
                             setTimeout(function() {
-                                //if ($scope.data.installedProduct['offer-group'] && $scope.data.installedProduct['offer-group'].indexOf('|') >= 0) {
-                                //    var ogList = $scope.data.installedProduct['offer-group'].split('|');
-                                //    for (var i = 0; i < ogList.length; i++) {
-                                //        if (ogList[i] == 'IDD') {
-                                //            $scope.isSubIDDNo = true;
-                                //            $scope.changIDD = true;
-                                //            $scope.requestTypeDB = "IDD";
-                                //            $('#chkChangIDD').click();
-                                //        }
-                                //        if (ogList[i] == 'IR') {
-                                //            $scope.isSubIRNo = true;
-                                //            $scope.changIR = true;
-                                //            $scope.requestTypeDB = "IRIDD";
-                                //            $('#chkChangeIR').click();
-                                //        }
-                                //    }
-                                //}
+
                                 if ($scope.data.priceplan['account-category'] == "B" || $scope.data.priceplan['account-category'] == "C") {
                                     $('#divShowAuthorize').show();
                                 } else {
@@ -1435,23 +1348,12 @@ smartApp.controller('ChangeIRIDDController', function($scope,
     //// validate ปุ่ม พิมพ์
     $scope.allValidateSave = function() {
         if ($scope.isValidateSave == true) { //กรณีที่: validate save = true
-            //if ($('#authorize').prop('checked')) {//กดมอบอำนาจ:
-            //    if ($('#CitizenID2').val() && $('#authorizeFullName').val() && $scope.isCitizenID2) {// ไม่เป็นค่าว่าง
-            //        $('#btnValidatePrint').prop('disabled', false);
-            //    } else {// เป็นค่าว่าง
-            //        $('#btnValidatePrint').prop('disabled', true);
-            //    }
-            //} else {//ไม่กดมอบอำนาจ:
-            //    $('#btnValidatePrint').prop('disabled', false);
-            //}
             $('#btnValidatePrint').prop('disabled', false);
         } else { //กรณีที่: validate save = false
             $('#btnValidatePrint').prop('disabled', true);
         }
     };
     $scope.onBindDataAgain = function() {};
-    //// end validate ปุ่ม พิมพ์
-
     /// for confirmClose modalPDF :: 1-08-2016 :: xsam32
     $scope.showConfirmClosePDF = function() {
         alert('xx');
@@ -1507,74 +1409,86 @@ smartApp.controller('ChangeIRIDDController', function($scope,
 
     };
 
-$scope.multiSim = {
-    "master-sim" : [
+    $scope.multiSim = [{
+            "sim-serial": "896600401500000900",
+            "sim-type": "ซิมหลัก / Master SIM",
+            "alias-name": "iPhone 6s Nan",
+            "ir-sim": true
+        },
         {
-            "product-name" : "iPhone 6 Nan",
-            "sim-serial" : "896600401500009000"
+            "sim-serial": "896600401500004545",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "iPad for kid1",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500008991",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "มิเตอร์ไฟบ้าน",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500008999",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "iPad for kid2",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500007000",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "มิเตอร์ไฟคอนโด",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500008990",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "นาฬิกาพ่อ",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500007888",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "ประตูบ้านใหญ่",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500008991",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "นาฬิกาแม่",
+            "ir-sim": false
+        },
+        {
+            "sim-serial": "896600401500002345",
+            "sim-type": "ซิมเสริม / Minor SIM",
+            "alias-name": "ประตูบ้านเล็ก",
+            "ir-sim": false
+        }];
+
+        // $scope.irSim = true;
+
+        $('.checkIrSim').prop( "checked" , true);
+
+        $scope.minorSim = [];
+        $scope.minorSimDetails = {
+            "sim-serail" : "",
+            "package" : "",
+            "alias-name" : ""
         }
-        // ,
-        //  {
-        //     "product-name" : "iPhone 6 Plus",
-        //     "sim-serial" : "896600401500009001"
-        // }
 
-    ],
-
-    "minor-sim" : [
-       {
-            "product-name" : "iPad for kid1",
-            "sim-serial" : "896600401500004545"
-        },
-        {
-            "product-name" : "มิเตอร์ไฟบ้าน",
-            "sim-serial" : "896600401500008991"
-        },
-        {
-            "product-name" : "iPad for kid2",
-            "sim-serial" : "896600401500008999"
-        },
-        {
-            "product-name" :  "มิเตอร์ไฟคอนโด",
-            "sim-serial" : "896600401500007000"
-        },
-        {
-            "product-name" : "นาฬิกาพ่อ",
-            "sim-serial" : "896600401500008990"
-        },
-        {
-            "product-name" : "ประตูบ้านใหญ่",
-            "sim-serial" : "896600401500007888"
-        },
-        {
-            "product-name" : "นาฬิกาแม่",
-            "sim-serial" : "896600401500008991"
-        },
-        {
-            "product-name" : "ประตูบ้านเล็ก",
-            "sim-serial" : "896600401500002345"
+        $scope.addMinorSim = function(){
+            if($scope.minorSim < 3){
+                $scope.minorSim.push($scope.minorSimDetails);
+            }
         }
 
-    ],
-};
-
-$scope.init = function(){
-    $scope.findLine($scope.multiSim['master-sim']);
-}
-
-$scope.findLine = function(arr){
-    $scope.event = [];
-    $scope.odd = [];
-    for (var i = 0; i < arr.length; i++) {
-        if( i % 2 == 0){
-            $scope.event.push(arr[i]);
-        }else {
-            $scope.odd.push(arr[i]);
+        $scope.deleteMinorSim = function(serail){
+            for (var i =0; i< $scope.minorSim.length; i++){
+                if(serail == $scope.minorSim[i]['sim-serial']){
+                    $scope.minorSim.slice(i, 1);
+                    break;
+                }
+               
+            }
         }
-    }
-
-    console.log($scope.event);
-    console.log($scope.odd);
-}
 
 });
