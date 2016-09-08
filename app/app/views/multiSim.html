@@ -91,15 +91,29 @@
                     </button>
                     <label style="margin-top:20px; margin-left:15px; font-weight:bold; color:red;">*** สามารถเพิ่มซิมเสริมได้อีก 2 ซิม</label>
                 </div>
-                <div class="row">
-                    <div ng-repeat="item in minorSim" ng-show="minorSim.length > 0">
-                        <div class="col-md1">
-                            <i class="fa fa-trah-o fa-1x"></i>
+                <br>
+                <div class="row" ng-show="minorSim.length > 0">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4" align="center">
+                        <h4>Sim Serial</h4>
+                    </div>
+                    <div class="col-md-4" align="center">
+                        <h4>Package</h4>
+                    </div>
+                    <div class="col-md-3" align="center">
+                        <h4>Alias Name</h4>
+                    </div>
+                </div>
+                <br>
+                <div class="row" ng-repeat="item in minorSim track by $index" ng-show="minorSim.length > 0">
+                    <div class="">
+                        <div class="col-md-1" align="center">
+                            <i class="fa fa-trash-o fa-1x" style="margin-top:7px;color:red;"></i>
                         </div>
-                        <div class="col-md4">
+                        <div class="col-md-4">
                             <input type="text" ng-model="item['sim-serail']" class="form-control">
                         </div>
-                        <div class="col-md4">
+                        <div class="col-md-4">
                             <select name="package" id="" ng-model="package" class="form-control">
                                 <option value="1">Offer123 : ริการ Multi SIM 50 บ.</option>
                                 <option value="2">Offer456 : ริการ Multi SIM 50 บ.</option>
@@ -107,12 +121,14 @@
                                 <option value="3">Offer555 : ริการ Multi SIM 50 บ.</option>
                             </select>
                         </div>
-                        <div class="col-md3">
+                        <div class="col-md-3">
                             <input type="text" ng-model="item['alias-name']" class="form-control">
                         </div>
+                        <br>
                     </div>
+                    <br>
                 </div>
-
+                <br>
                 <style type="text/css">
                 .divEffer {
                     width: 250px;

@@ -1473,12 +1473,13 @@ smartApp.controller('MultiSimController', function($scope,
             "sim-serail" : "",
             "package" : "",
             "alias-name" : ""
-        }
+        };
 
         $scope.addMinorSim = function(){
-            if($scope.minorSim < 3){
+            if($scope.minorSim.length < 2){
                 $scope.minorSim.push($scope.minorSimDetails);
             }
+            console.log($scope.minorSim);
         }
 
         $scope.deleteMinorSim = function(serail){
