@@ -281,21 +281,21 @@ smartApp.controller('MultiSimController', function($scope,
         }
     }
     $scope.manualInputReadCard = function() {
-            $('#loadingReadCard').hide();
-            $('#loadingReadCard2').hide();
-            $('#unMatch').hide();
-            $('#unMatch2').hide();
-            $('#CitizenID').prop('disabled', false);
+        $('#loadingReadCard').hide();
+        $('#loadingReadCard2').hide();
+        $('#unMatch').hide();
+        $('#unMatch2').hide();
+        $('#CitizenID').prop('disabled', false);
 
 
-            setTimeout(function() {
-                $('#CitizenID').val('');
-            }, 500);
-            setTimeout(function() {
-                $('#CitizenID').select();
-            }, 1500);
-            $scope.isManualReadCard = false;
-        }
+        setTimeout(function() {
+            $('#CitizenID').val('');
+        }, 500);
+        setTimeout(function() {
+            $('#CitizenID').select();
+        }, 1500);
+        $scope.isManualReadCard = false;
+    }
 
     $scope.isInputSubNo = false;
     $scope.onInputSubNo = function() {
@@ -1410,85 +1410,92 @@ smartApp.controller('MultiSimController', function($scope,
     };
 
     $scope.multiSim = [{
-            "sim-serial": "896600401500000900",
-            "sim-type": "ซิมหลัก / Master SIM",
-            "alias-name": "iPhone 6s Nan",
-            "ir-sim": true
-        },
-        {
-            "sim-serial": "896600401500004545",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "iPad for kid1",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500008991",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "มิเตอร์ไฟบ้าน",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500008999",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "iPad for kid2",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500007000",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "มิเตอร์ไฟคอนโด",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500008990",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "นาฬิกาพ่อ",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500007888",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "ประตูบ้านใหญ่",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500008991",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "นาฬิกาแม่",
-            "ir-sim": false
-        },
-        {
-            "sim-serial": "896600401500002345",
-            "sim-type": "ซิมเสริม / Minor SIM",
-            "alias-name": "ประตูบ้านเล็ก",
-            "ir-sim": false
-        }];
+        "sim-serial": "896600401500000900",
+        "sim-type": "ซิมหลัก / Master SIM",
+        "alias-name": "iPhone 6s Nan",
+        "ir-sim": true
+    }, {
+        "sim-serial": "896600401500004545",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "iPad for kid1",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500008991",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "มิเตอร์ไฟบ้าน",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500008999",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "iPad for kid2",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500007000",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "มิเตอร์ไฟคอนโด",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500008990",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "นาฬิกาพ่อ",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500007888",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "ประตูบ้านใหญ่",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500008991",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "นาฬิกาแม่",
+        "ir-sim": false
+    }, {
+        "sim-serial": "896600401500002345",
+        "sim-type": "ซิมเสริม / Minor SIM",
+        "alias-name": "ประตูบ้านเล็ก",
+        "ir-sim": false
+    }];
 
-        // $scope.irSim = true;
+    // $scope.irSim = true;
 
-        $('.checkIrSim').prop( "checked" , true);
+    $('.checkIrSim').prop("checked", true);
 
-        $scope.minorSim = [];
-        $scope.minorSimDetails = {
-            "sim-serail" : "",
-            "package" : "",
-            "alias-name" : ""
+    $scope.package = "";
+    $scope.minorSim = [];
+    $scope.minorSimDetails = {
+        "sim-serail": "",
+        "package": [{
+            "id": "1",
+            "name": "Offer123 : ริการ Multi SIM 50 บ."
+        }, {
+            "id": "2",
+            "name": "Offer456 : ริการ Multi SIM 50 บ."
+        }, {
+            "id": "3",
+            "name": "Offer789 : ริการ Multi SIM 50 บ."
+        },{
+             "id": "4",
+            "name" : "Offer098 : ริการ Multi SIM 50 บ."
         }
 
-        $scope.addMinorSim = function(){
-            if($scope.minorSim < 3){
-                $scope.minorSim.push($scope.minorSimDetails);
+        ],
+        "alias-name": ""
+    }
+
+    $scope.addMinorSim = function() {
+        if ($scope.minorSim.length < 2) {
+            $scope.minorSim.push($scope.minorSimDetails);
+        }
+    }
+
+    $scope.deleteMinorSim = function(serail) {
+        for (var i = 0; i < $scope.minorSim.length; i++) {
+            if (serail == $scope.minorSim[i]['sim-serial']) {
+                $scope.minorSim.slice(i, 1);
+                break;
             }
-        }
 
-        $scope.deleteMinorSim = function(serail){
-            for (var i =0; i< $scope.minorSim.length; i++){
-                if(serail == $scope.minorSim[i]['sim-serial']){
-                    $scope.minorSim.slice(i, 1);
-                    break;
-                }
-               
-            }
         }
+    }
 
 });

@@ -84,35 +84,47 @@
                     <!-- End Multi SIM -->
                 </div>
                 <div class="btn-group" style="bottom:10px;">
-                    <button class="btn" style="border-radius:20px; color: #FFF; width:195px; background-color:#f2511e" ng-click="addMinorSim();">
+                    <button class="btn" style="border-radius:20px; color: #FFF; width:195px; background-color:#f2511e" ng-click="addMinorSim();" ng-disabled="minorSim.length == 2">
                         <i class="fa fa-plus-circle pull-left fa-lg-plus" style="margin-top:7px;"></i>
                         <div style="padding-top: 3px; padding-right: 20px;">เพิ่มซิมเสริม
                             <br />Add Minor SIM</div>
                     </button>
                     <label style="margin-top:20px; margin-left:15px; font-weight:bold; color:red;">*** สามารถเพิ่มซิมเสริมได้อีก 2 ซิม</label>
                 </div>
-                <div class="row">
-                    <div ng-repeat="item in minorSim" ng-show="minorSim.length > 0">
-                        <div class="col-md1">
-                            <i class="fa fa-trah-o fa-1x"></i>
-                        </div>
-                        <div class="col-md4">
-                            <input type="text" ng-model="item['sim-serail']" class="form-control">
-                        </div>
-                        <div class="col-md4">
-                            <select name="package" id="" ng-model="package" class="form-control">
-                                <option value="1">Offer123 : ริการ Multi SIM 50 บ.</option>
-                                <option value="2">Offer456 : ริการ Multi SIM 50 บ.</option>
-                                <option value="3">Offer789 : ริการ Multi SIM 50 บ.</option>
-                                <option value="3">Offer555 : ริการ Multi SIM 50 บ.</option>
-                            </select>
-                        </div>
-                        <div class="col-md3">
-                            <input type="text" ng-model="item['alias-name']" class="form-control">
-                        </div>
-                    </div>
+                <div class="table-responsive" style="margin-top:20px;" ng-show="minorSim.length>0">
+                    <table class="table table-striped table-bordered table-hover table-condensed" style="margin-bottom: 0px; border:0;" >
+                        <tr style="border:0;">
+                            <th class="contentTbHeader">
+                                <h></h>
+                            </th>
+                            <th class="contentTbHeader">
+                                หมายเลขซิมการ์ด SIM Serial
+                            </th>
+                            <th class="contentTbHeader">
+                                Package
+                            </th>
+                            <th class="contentTbHeader">
+                                ซื่อซิม Alias Name
+                            </th>
+                        </tr>
+                        <tr ng-repeat="item in minorSim track by $index" style="border:0;">
+                            <td style="border:0;"> 
+                                <i class="fa fa-trash-o fa-1x" style="color:red; margin-top:7px; margin-left:20px;"></i>
+                            </td>
+                            <td style="border:0;">
+                                <input type="text" ng-model="item.param.serial" class="form-control"> 
+                            </td>
+                            <td style="border:0;">
+                                <select name="package" id="" ng-model="item.param.package" class="form-control" ng-init="item.param.package='1'">
+                                    <option ng-repeat=" item in minorSimDetails.package " value="{{item.id}}">{{item.name}}</option>                                   
+                                </select>
+                            </td>
+                            <td style="border:0;">
+                                <input type="text" ng-model="item.param.aliasName" class="form-control" value="{{item['alias-name']}}">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-
                 <style type="text/css">
                 .divEffer {
                     width: 250px;
@@ -121,6 +133,7 @@
                 .divCorperate {
                     width: 80%;
                 }
+                               
                 </style>
             </div>
             <div class="col-md-12 form-buttons">
