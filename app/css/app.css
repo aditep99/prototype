@@ -14940,4 +14940,7 @@ textarea.remark-message {
   content: "\e900";
 }
 
+.edit {
+    background-color: #ffa620;
+}
 

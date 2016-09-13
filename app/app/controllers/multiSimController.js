@@ -418,7 +418,7 @@ smartApp.controller('MultiSimController', function($scope,
             $('#btnValidatePrint').prop('disabled', true);
         }, 100);
         $scope.requestType = requestType;
-        $scope.data.orderRequest['order']['order-items'][0]['name'] = requestType;
+        // $scope.data.orderRequest['order']['order-items'][0]['name'] = requestType;
 
         if ($scope.requestType == "REMOVE_IRIDD") { //ยกเลิก บริการ
             if ($scope.requestTypeDB == "IDD") { //สมัคร IDD ไว้แล้ว
@@ -1413,70 +1413,88 @@ smartApp.controller('MultiSimController', function($scope,
         "sim-serial": "896600401500000900",
         "sim-type": "ซิมหลัก / Master SIM",
         "alias-name": "iPhone 6s Nan",
+        "can-resume": false,
         "ir-sim": true
     }, {
         "sim-serial": "896600401500004545",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "iPad for kid1",
+        "can-resume": false,
         "ir-sim": false
     }, {
         "sim-serial": "896600401500008991",
         "sim-type": "ซิมเสริม / Minor SIM",
+        "can-resume": false,
         "alias-name": "มิเตอร์ไฟบ้าน",
         "ir-sim": false
     }, {
         "sim-serial": "896600401500008999",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "iPad for kid2",
+        "can-resume": false,
         "ir-sim": false
     }, {
         "sim-serial": "896600401500007000",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "มิเตอร์ไฟคอนโด",
+        "can-resume": false,
         "ir-sim": false
     }, {
         "sim-serial": "896600401500008990",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "นาฬิกาพ่อ",
+        "can-resume": false,
         "ir-sim": false
     }, {
         "sim-serial": "896600401500007888",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "ประตูบ้านใหญ่",
+        "can-resume": false,
         "ir-sim": false
     }, {
-        "sim-serial": "896600401500008991",
+        "sim-serial": "996600401500008991",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "นาฬิกาแม่",
+        "can-resume": true,
         "ir-sim": false
     }, {
         "sim-serial": "896600401500002345",
         "sim-type": "ซิมเสริม / Minor SIM",
         "alias-name": "ประตูบ้านเล็ก",
+        "can-resume": true,
         "ir-sim": false
     }];
 
+    $scope.displayMultiSim = angular.copy($scope.multiSim);
+    for(var i = 0; i < $scope.displayMultiSim.length; i++){
+         $scope.displayMultiSim[i]['value-change'] = false;
+    };
+    console.log($scope.displayMultiSim);
     // $scope.irSim = true;
-
+    $scope.defaultMultiSimValue = function(){
+        $scope.displayMultiSim = angular.copy($scope.multiSim);
+        $scope.modelChange = false;
+    }
     $('.checkIrSim').prop("checked", true);
 
     $scope.package = "";
     $scope.minorSim = [];
     $scope.minorSimDetails = {
+        "sim-id": "",
         "sim-serail": "",
         "package": [{
-            "id": "1",
-            "name": "Offer123 : ริการ Multi SIM 50 บ."
-        }, {
-            "id": "2",
-            "name": "Offer456 : ริการ Multi SIM 50 บ."
-        }, {
-            "id": "3",
-            "name": "Offer789 : ริการ Multi SIM 50 บ."
-        },{
-             "id": "4",
-            "name" : "Offer098 : ริการ Multi SIM 50 บ."
-        }
+                "id": "1",
+                "name": "Offer123 : ริการ Multi SIM 50 บ."
+            }, {
+                "id": "2",
+                "name": "Offer456 : ริการ Multi SIM 50 บ."
+            }, {
+                "id": "3",
+                "name": "Offer789 : ริการ Multi SIM 50 บ."
+            }, {
+                "id": "4",
+                "name": "Offer098 : ริการ Multi SIM 50 บ."
+            }
 
         ],
         "alias-name": ""
@@ -1484,18 +1502,40 @@ smartApp.controller('MultiSimController', function($scope,
 
     $scope.addMinorSim = function() {
         if ($scope.minorSim.length < 2) {
-            $scope.minorSim.push($scope.minorSimDetails);
+            var tempData = angular.copy($scope.minorSimDetails);
+            $scope.minorSim.push(tempData);
         }
-    }
+        for(var i = 0; i < $scope.minorSim.length; i++){
+            $scope.minorSim[i]["sim-id"] = i;
+        }
+        console.log($scope.minorSim);
+    };
 
-    $scope.deleteMinorSim = function(serail) {
+    $scope.deleteMinorSim = function(id) {
         for (var i = 0; i < $scope.minorSim.length; i++) {
-            if (serail == $scope.minorSim[i]['sim-serial']) {
-                $scope.minorSim.slice(i, 1);
+            if (id == $scope.minorSim[i].id) {
+                $scope.minorSim.splice(i, 1);
                 break;
             }
-
         }
-    }
+    };
 
+    $scope.chkChangeValue = function(value, index, rowID) {
+        console.log(value, index);
+        $scope.aliasNameIndex = index;
+        if (value == $scope.multiSim[index]["alias-name"]) {
+            $scope.displayMultiSim[index]['value-change'] = false;
+            $('#' + rowID).removeClass("edit");
+        } else {
+             $scope.displayMultiSim[index]['value-change'] = true;
+             $('#' + rowID).addClass("edit");
+        }
+    };
+
+    $scope.unDoEditAliasName = function(index, rowID){
+        $scope.displayMultiSim[index]["alias-name"]  = $scope.multiSim[index]["alias-name"];
+        $('#' + rowID).removeClass("edit");
+        $scope.displayMultiSim[index]['value-change'] = false;
+
+    };
 });
