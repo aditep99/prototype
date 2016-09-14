@@ -16,7 +16,7 @@
                 <div ng-include="template.customerprofile" onload="onCustomerProfileTemplateLoaded()"></div>
 
                 <!-- Multi SIM -->
-                <div>
+                <div ng-show="data">
                     <h4>Multi SIM</h4>
                     <div class="well" style="background-color:#ffffff;">
                         <div class="row">
@@ -27,8 +27,9 @@
                                 <span class="col-xs-6">
                                     <label>
                                         <input type="radio" name="masterSim" 
-                                        value="item['product-name']}}" ng-model="multiSim">{{item['product-name']}}
-                                        <br /> {{item['sim-serial']}}
+                                        value="item['product-name']}}" ng-model="multiSim"> {{item['product-name']}}
+                                            <br><span style="margin-left: 17px;">{{item['sim-serial']}}</span>
+                                        
                                     </label>
                                     <br ng-show="($index+1)%2==0">
                                 </span>
@@ -44,8 +45,8 @@
                                 <span class="col-xs-6">
                                     <label>
                                         <input type="radio" name="minorSim" 
-                                        value="item['product-name']}}" ng-model="multiSim">{{item['product-name']}}
-                                        <br /> {{item['sim-serial']}}
+                                        value="item['product-name']}}" ng-model="multiSim"> {{item['product-name']}}
+                                        <br><span style="margin-left: 17px;">{{item['sim-serial']}}</span>
                                     </label>
                                     <br ng-show="($index+1)%2==0">
                                 </span>
@@ -53,9 +54,6 @@
                         </div>
                         
                     </div>
-
-                    
-
                 </div>
                 <!-- End Multi SIM -->
 
