@@ -35,6 +35,7 @@ smartApp.controller('MultiSimController', function($scope,
 
     $scope.isNullSubNo = $routeParams.subno ? false : true;
 
+
     //// for send data readcard to page :: 1-08-2016 :: xsam32
     $scope.readCardID_URL = $routeParams["readcard-id"] ? $routeParams["readcard-id"] : 'null';
 
@@ -405,7 +406,7 @@ smartApp.controller('MultiSimController', function($scope,
     $scope.changIDD = false;
     $scope.changIR = false;
     $scope.checkIDD = false;
-
+    $scope.requestType = "ADD_MINORSIM";
     $scope.requestTypeDB = "";
 
     $scope.changereqType = function(requestType) {
