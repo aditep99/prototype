@@ -14912,11 +14912,11 @@ textarea.remark-message {
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('/fonts/fontSimCard/icomoon.eot?zd6gwp');
-  src:  url('/fonts/fontSimCard/icomoon.eot?zd6gwp#iefix') format('embedded-opentype'),
-    url('/fonts/fontSimCard/icomoon.ttf?zd6gwp') format('truetype'),
-    url('/fonts/fontSimCard/icomoon.woff?zd6gwp') format('woff'),
-    url('/fonts/fontSimCard/icomoon.svg?zd6gwp#icomoon') format('svg');
+  src:  url('../fonts/fontSimCard/icomoon.eot?zd6gwp');
+  src:  url('../fonts/fontSimCard/icomoon.eot?zd6gwp#iefix') format('embedded-opentype'),
+    url('../fonts/fontSimCard/icomoon.ttf?zd6gwp') format('truetype'),
+    url('../fonts/fontSimCard/icomoon.woff?zd6gwp') format('woff'),
+    url('../fonts/fontSimCard/icomoon.svg?zd6gwp#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
