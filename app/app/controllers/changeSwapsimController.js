@@ -597,17 +597,13 @@
     $scope.showDataDealer = false;
     var authenticate = function() {
         AuthenService.getAuthen(function(authResult) {
+            $scope.multiSimValue = $scope.multiSim["master-sim"][0]['sim-serial'];
             $scope.getAuthen = authResult;
             $scope.shopType = authResult.shopType;
             //console.log(authResult);
             ChangeSwapSimService.getSIMData($scope.SubNo, onGetSIMData);
 
-
-
-
-
             $scope.shopType = $scope.getAuthen['shopType'];
-
 
             if ($scope.shopType == '1' && $scope.getAuthen['isSecondAuthen'] == false) {
                 $scope.showDataDealer = true;

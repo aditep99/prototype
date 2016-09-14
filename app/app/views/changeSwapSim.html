@@ -20,16 +20,17 @@
                     <h4>Multi SIM</h4>
                     <div class="well" style="background-color:#ffffff;">
                         <div class="row">
-                            <h4>ซิมหลัก (Master SIM)</h4>
+                            <h4>ซิมหลัก (Master SIM) {{multiSimValue}}</h4>
                         </div>
                         <div class="row">
                             <span ng-repeat="item in multiSim['master-sim']">
                                 <span class="col-xs-6">
                                     <label style="cursor:pointer;">
-                                        <input type="radio" name="masterSim" 
-                                        value="item['product-name']}}" ng-model="multiSim"> {{item['product-name']}}
-                                            <br><span style="margin-left: 17px;">{{item['sim-serial']}}</span>
-                                        
+                                        <input type="radio" name="multiSimRadio" 
+                                        value="{{item['sim-serial']}}" ng-model="multiSimValue" style="cursor:pointer;">
+                                        <span style="margin-left: 3px;"> {{item['product-name']}}</span>
+                                        <br>
+                                        <span style="margin-left: 20px;">{{item['sim-serial']}}</span>
                                     </label>
                                     <br ng-show="($index+1)%2==0">
                                 </span>
@@ -44,9 +45,11 @@
                             <span ng-repeat="item in multiSim['minor-sim']">
                                 <span class="col-xs-6">
                                     <label style="cursor:pointer;">
-                                        <input type="radio" name="minorSim" 
-                                        value="item['product-name']}}" ng-model="multiSim"> {{item['product-name']}}
-                                        <br><span style="margin-left: 17px;">{{item['sim-serial']}}</span>
+                                        <input type="radio" name="multiSimRadio" 
+                                        value="{{item['sim-serial']}}" ng-model="multiSimValue" style="cursor:pointer;">
+                                        <span style="margin-left: 3px;"> {{item['product-name']}}</span>
+                                        <br>
+                                        <span style="margin-left: 20px;">{{item['sim-serial']}}</span>
                                     </label>
                                     <br ng-show="($index+1)%2==0">
                                 </span>
