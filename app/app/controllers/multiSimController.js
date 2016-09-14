@@ -219,7 +219,8 @@ smartApp.controller('MultiSimController', function($scope,
             $scope.isNonePartner = true;
             $scope.manualInputReadCard();
         }
-        $scope.changereqType('ADD_IRIDD');
+        // $scope.changereqType('ADD_IRIDD');
+        $scope.changereqType('ADD_MINORSIM');
     };
 
     $scope.readCardError = function(msg) {
@@ -344,7 +345,8 @@ smartApp.controller('MultiSimController', function($scope,
             $scope.isCustomerProfile = true;
             $.fancybox.close();
 
-            $scope.changereqType("ADD_IRIDD");
+            // $scope.changereqType("ADD_IRIDD");
+            $scope.changereqType("ADD_MINORSIM");
             setTimeout(function() {
                 $('#idBindDataAgain').click();
             }, 500);
@@ -390,7 +392,8 @@ smartApp.controller('MultiSimController', function($scope,
                 $scope.isReadCardSuccess = false;
                 $scope.CitizenID = "";
 
-                $scope.changereqType("ADD_IRIDD");
+                // $scope.changereqType("ADD_IRIDD");
+                $scope.changereqType("ADD_MINORSIM");
 
                 $scope.data = $scope.data2;
             } else {
@@ -401,12 +404,12 @@ smartApp.controller('MultiSimController', function($scope,
         }
     }
 
-    $scope.requestType = "ADD_IRIDD";
+    // $scope.requestType = "ADD_IRIDD";
     $scope.requestText = "ขอเปิดบริการ";
     $scope.changIDD = false;
     $scope.changIR = false;
     $scope.checkIDD = false;
-    $scope.requestType = "ADD_MINORSIM";
+    // $scope.requestType = "ADD_MINORSIM";
     $scope.requestTypeDB = "";
 
     $scope.changereqType = function(requestType) {
@@ -494,57 +497,57 @@ smartApp.controller('MultiSimController', function($scope,
         $scope.isAuthorize = !$scope.isAuthorize;
     };
     $scope.iddChecked = function() {
-        if ($scope.changIDD == false) {
-            if ($scope.requestType != "ADD_IRIDD" && $scope.changIR == true) {
-                $scope.changIR = true;
-            } else {
-                $scope.changIR = false;
-            }
-            //$scope.changIR = false;
-        } else {
-            if ($scope.requestType != "ADD_IRIDD" && $scope.requestTypeDB != "IDD") {
-                $scope.changIR = true;
-            }
-        }
+        // if ($scope.changIDD == false) {
+        //     if ($scope.requestType != "ADD_IRIDD" && $scope.changIR == true) {
+        //         $scope.changIR = true;
+        //     } else {
+        //         $scope.changIR = false;
+        //     }
+        //     //$scope.changIR = false;
+        // } else {
+        //     if ($scope.requestType != "ADD_IRIDD" && $scope.requestTypeDB != "IDD") {
+        //         $scope.changIR = true;
+        //     }
+        // }
         //check show offer
-        $scope.checkShowOffer();
+        // $scope.checkShowOffer();
 
     };
     $scope.offerGroupIR = "";
     $scope.irChecked = function() {
-        if ($scope.changIR == true) {
-            if ($scope.requestType != "ADD_IRIDD") {
+        // if ($scope.changIR == true) {
+        //     if ($scope.requestType != "ADD_IRIDD") {
 
-                if ($scope.offerGroup == 0) {
-                    $scope.offerGroup = $scope.offerGroupIR;
-                };
+        //         if ($scope.offerGroup == 0) {
+        //             $scope.offerGroup = $scope.offerGroupIR;
+        //         };
 
-            } else {
-                $scope.changIDD = true;
-                //default offer code
-                //console.log($scope.data.installedProduct["account-sub-type"]);
-                if ($scope.data.installedProduct["account-sub-type"].indexOf('HY') === 0) {
-                    //console.log($scope.data.installedProduct["account-sub-type"]);
-                    $scope.offerGroup = "PROROAM6";
-                } else {
-                    //console.log($scope.data.installedProduct["account-sub-type"]);
-                    $scope.offerGroup = "PROROAM2S";
-                }
-                var list = $filter('filter')($scope.data.offerGroupList, {
-                    "soc-name": $scope.offerGroup
-                });
-                if (list.length == 0) {
-                    $scope.offerGroup = $scope.data.offerGroupList[0]["soc-name"];
-                }
-                $scope.data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE'] = "";
+        //     } else {
+        //         $scope.changIDD = true;
+        //         //default offer code
+        //         //console.log($scope.data.installedProduct["account-sub-type"]);
+        //         if ($scope.data.installedProduct["account-sub-type"].indexOf('HY') === 0) {
+        //             //console.log($scope.data.installedProduct["account-sub-type"]);
+        //             $scope.offerGroup = "PROROAM6";
+        //         } else {
+        //             //console.log($scope.data.installedProduct["account-sub-type"]);
+        //             $scope.offerGroup = "PROROAM2S";
+        //         }
+        //         var list = $filter('filter')($scope.data.offerGroupList, {
+        //             "soc-name": $scope.offerGroup
+        //         });
+        //         if (list.length == 0) {
+        //             $scope.offerGroup = $scope.data.offerGroupList[0]["soc-name"];
+        //         }
+        //         $scope.data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE'] = "";
 
 
-            }
-        } else {
-            if ($scope.requestType != "ADD_IRIDD") {
-                $scope.changIDD = false;
-            }
-        }
+        //     }
+        // } else {
+        //     if ($scope.requestType != "ADD_IRIDD") {
+        //         $scope.changIDD = false;
+        //     }
+        // }
 
         //check show offer
         $scope.checkShowOffer();
@@ -568,7 +571,7 @@ smartApp.controller('MultiSimController', function($scope,
             "birthdate": SystemService.convertDateENToFomat($scope.data.responseData["customer"]["birthdate"], 'dd/MM/yyyy')
         };
         console.log(data);
-        changeIRIDDService.ValidateAutoApproveCode(data, function(result) {
+        multiSimService.ValidateAutoApproveCode(data, function(result) {
             console.log(result);
             SystemService.hideLoading();
             $scope.dataAutoApprove = result.data["response-data"];
@@ -657,7 +660,7 @@ smartApp.controller('MultiSimController', function($scope,
             }, 1000);
             if ($scope.data.orderRequest['order']['order-items'][0]['order-data']['IR-APPROVE-CODE']) {
                 SystemService.showLoading();
-                changeIRIDDService.ValidateApproveCodeCallback($scope.data.responseData.customer["installed-products"][0]["company-code"],
+                multiSimService.ValidateApproveCodeCallback($scope.data.responseData.customer["installed-products"][0]["company-code"],
                     $scope.data.responseData.customer["installed-products"][0]["account-category"],
                     $scope.data.responseData.customer["id-number"],
                     $scope.data.responseData.customer["customer-level"],
@@ -1090,8 +1093,7 @@ smartApp.controller('MultiSimController', function($scope,
 
                 }, 1200);
                 if ($scope.SubNo != 'null') {
-
-                    changeIRIDDService.validateIRIDDCallback($scope.SubNo, function(resultData) {
+                    multiSimService.validateIRIDDCallback($scope.SubNo, function(resultData) {
                         $scope.checkURL_shop_code = true;
                         $scope.data = resultData;
                         console.log($scope.data);
@@ -1105,7 +1107,8 @@ smartApp.controller('MultiSimController', function($scope,
 
                             $scope.data.orderRequest['order']['order-id'] = resultOrder.orderId;
                             $scope.data.orderRequest['ref-id'] = resultOrder.orderId;
-                            $scope.data.orderRequest['order']['order-items'][0]['name'] = "ADD_IRIDD";
+                            // $scope.data.orderRequest['order']['order-items'][0]['name'] = "ADD_IRIDD";
+                            $scope.data.orderRequest['order']['order-items'][0]['name'] = "ADD_MINORSIM";
                             $scope.data.orderRequest['order']['creator'] = $scope.getAuthen["logInName"];
                             $scope.data.orderRequest['user-id'] = $scope.getAuthen["logInName"];
                             $scope.data.orderRequest['order']['sale-agent'] = {
@@ -1136,7 +1139,8 @@ smartApp.controller('MultiSimController', function($scope,
                                 var all = false;
                                 for (var i = 0; i < insPro.length; i++) {
                                     if (insPro[i]['offer-group'] == 'IDD') {
-                                        $scope.changereqType("ADD_IRIDD");
+                                        // $scope.changereqType("ADD_IRIDD");
+                                        $scope.changereqType("ADD_MINORSIM");
                                         $scope.changIDD = true;
                                         $scope.requestTypeDB = "IDD";
                                         $scope.changIR = false;
@@ -1146,7 +1150,8 @@ smartApp.controller('MultiSimController', function($scope,
                                     }
                                     if (insPro[i]['offer-group'] == 'IR') {
                                         $scope.offerGroupIR = insPro[i]['product-name'];
-                                        $scope.changereqType("ADD_IRIDD");
+                                        // $scope.changereqType("ADD_IRIDD");
+                                        $scope.changereqType("ADD_MINORSIM");
                                         $scope.changIR = true;
                                         $scope.requestTypeDB = "IRIDD";
                                         $scope.isSubIRNo = true;
@@ -1181,7 +1186,8 @@ smartApp.controller('MultiSimController', function($scope,
                                     $('#CitizenID').focus();
                                     $('#btnSSO').hide();
                                 }
-                                $scope.changereqType("ADD_IRIDD");
+                                // $scope.changereqType("ADD_IRIDD");
+                                $scope.changereqType("ADD_MINORSIM");
                                 $('#idBindDataAgain').click();
                                 $('#labelAdd').click();
 
@@ -1247,7 +1253,8 @@ smartApp.controller('MultiSimController', function($scope,
 
 
                                 $scope.isCustomerProfile = true;
-                                $scope.changereqType("ADD_IRIDD");
+                                // $scope.changereqType("ADD_IRIDD");
+                                $scope.changereqType("ADD_MINORSIM");
                                 setTimeout(function() {
 
                                     $('#loadingReadCard2').hide();
@@ -1261,13 +1268,10 @@ smartApp.controller('MultiSimController', function($scope,
                             $scope.SubNo = "null";
                         }
                     });
-
-
+                    $scope.requestType = "ADD_MINORSIM";
                 } else {
                     SystemService.hideLoading();
                 }
-
-
             });
         });
     };
