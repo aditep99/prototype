@@ -65,8 +65,9 @@
                         "product-properties": {
                             "IS-LARGE-CUSTOMER-SIZE": "true"
                         },
-                        "next-priceplan-code": "",
-                        "next-priceplan-desc": "",
+                        "next-priceplan-code": "NPSMAP55",
+                        "next-priceplan-desc": "4G + Super Smart 1499, Voice 1200min Net 15 GB Unltd",
+                        "minor-sim": "2",
                         "ou-hierarchytype": "CHILD"
                     }]
                 },
@@ -265,7 +266,7 @@
             } else {
                 fnCallback({
                     status: true,
-                    data: data2,
+                    data: data,
                     error: "",
                     msgErr: ""
                 });

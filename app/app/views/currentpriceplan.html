@@ -19,6 +19,22 @@
             <p class="text-b" style="margin-top:-7px;">&nbsp;&nbsp;{{data.priceplan["product-name"]}} : {{data.priceplan["product-description"]}}</p>
         </div>
     </div>
+    <div class="row" ng-show="data.priceplan['minor-sim']">
+        <div class="col-md-3">
+            <p class="label" style="margin-top:-7px;">บริการ Multi SIM</p>
+        </div>
+        <div class="col-md-9" ng-hide="(Action == 'ADD')">
+            <p class="text-b" style="margin-top:-7px;">&nbsp;&nbsp;บริการ Multi SIM จำนวนซิมเสริม {{data.priceplan['minor-sim']}} ซิม</p>
+        </div>
+    </div>
+    <div class="row" ng-show="data.priceplan['next-priceplan-code'] || data.priceplan['next-priceplan-desc']">
+        <div class="col-md-3">
+            <p class="label" style="margin-top:-7px;">การเปลี่ยนโปรโมชั่นล่วงหน้า</p>
+        </div>
+        <div class="col-md-9" ng-hide="(Action == 'ADD')">
+            <p class="text-b" style="margin-top:-7px;">&nbsp;&nbsp;{{data.priceplan["next-priceplan-code"]}} -> {{data.priceplan["product-name"]}} : {{data.priceplan["next-priceplan-desc"]}} </p>
+        </div>
+    </div>
     <!-- <div class="col-md-4">
         <p class="label">ค่าบริการรายเดือน</p>
     </div>
