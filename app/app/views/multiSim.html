@@ -70,7 +70,7 @@
                                         <label for="{{item['sim-serial']}}"></label>
                                     </div>
                                 </td>
-                                <td class="contentTb">
+                                <td class="contentTb" style="width:25%;">
                                     {{item['sim-serial']}}
                                 </td>
                                 <td class="contentTb">
@@ -87,9 +87,9 @@
                                     </span>
                                     <div class="input-group" ng-show="requestType=='UPDATE_SIM_ALIAS'">
                                         <span class="input-group-addon" style="color: #000;background: none;border-style:none;">
-                                            <i ng-show="item['value-change'] == true" class="fa fa-undo fa-1x" style="font-size:1.2em;cursor:pointer" ng-click="unDoEditAliasName($index, item['sim-serial']);"></i>
+                                            <i ng-show="item['value-change'] == true" class="fa fa-undo fa-1x" style="font-size:1.0em;cursor:pointer;vertical-align: initial;" ng-click="unDoEditAliasName($index, item['sim-serial']);"></i>
                                         </span>
-                                        <input type="text" class="form-control" ng-model="item['alias-name']" ng-keyup="chkChangeValue(item['alias-name'], $index, item['sim-serial'])" ng-change="chkChangeValue(item['alias-name'], $index, item['sim-serial'])" style="border-radius: 4px">
+                                        <input type="text" class="form-control" ng-model="item['alias-name']" ng-keyup="chkChangeValue(item['alias-name'], $index, item['sim-serial'])" ng-change="chkChangeValue(item['alias-name'], $index, item['sim-serial'])" style="border-radius: 4px; height:30px; ">
                                         <span class="input-group-addon" style="color: #000;background: none;border-style:none;">
                                         </span>
                                     </div>
