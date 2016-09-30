@@ -97,6 +97,9 @@ smartApp.config(function($routeProvider, $httpProvider) {
     }).when('/allProduct', {
         templateUrl: 'app/views/allProduct.html?v=' + runTime,
         controller: 'AllproductController'
+    }).when('/resume', {
+        templateUrl: 'app/views/changeResume.html?v=' + runTime,
+        controller: 'ResumeController'
     });
 
 });

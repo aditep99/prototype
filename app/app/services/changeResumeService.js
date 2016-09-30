@@ -153,22 +153,22 @@
                         "id-expire-date": "2020-11-24T00:00:00+0700",
                         "customer-id": "60393",
                         "installed-products": [{
-                            "ouId": "31443",
-                            "ban": "10062023",
+                            "ouId": "39548",
+                            "ban": "10070039",
                             "product-category": "TMV",
-                            "product-type": "R",
+                            "product-type": "PRICEPLAN",
                             "product-sub-type": "R",
                             "product-status": "Cancelled",
                             "account-category": "B",
-                            "account-sub-type": "SRE",
-                            "product-id": "EDOGAP11",
-                            "product-name": "EDOGAP11",
-                            "product-description": "D_Ent_799_3GB DATA&amp;Wifi+HS",
+                            "account-sub-type": "SRB",
+                            "product-id": "SMRTPP87",
+                            "product-name": "SMRTPP87",
+                            "product-description": "iSmart 299, voice100mins net500MB UNLTD WiFi UNLTD",
                             "bill-cycle": "2",
-                            "company-code": "RM",
+                            "company-code": "RF",
                             "service-level": "C",
                             "product-soc-code": "",
-                            "subscriber-id": "89405",
+                            "subscriber-id": "105594",
                             "product-properties": {
                                 "REASON-DESC": "Customer request",
                                 "PRODUCT-STATUS-DESC": "Cancel",
@@ -178,7 +178,7 @@
                                 "IS-NEW-SIM": "true",
                                 "CURRENT-SIM-STATUS": "AVAILABLE",
                                 "REASON-CODE": "CREQ",
-                                "PRODUCT-STATUS-CODE": "RESUME-CANCEL-OA-NS",
+                                "PRODUCT-STATUS-CODE": "RESUME-CANCEL-OA-OS",
                                 "SUBSCRIBER-ID": "89405"
                             },
                             "product-id-name": "MSISDN",
@@ -209,7 +209,7 @@
             } else {
                 fnCallback({
                     status: true,
-                    data: data2,
+                    data: data4,
                     error: "",
                     msgErr: ""
                 });
