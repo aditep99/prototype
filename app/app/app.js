@@ -100,6 +100,9 @@ smartApp.config(function($routeProvider, $httpProvider) {
     }).when('/resume', {
         templateUrl: 'app/views/changeResume.html?v=' + runTime,
         controller: 'ResumeController'
+    }).when('/deleteFuturePricePlan', {
+        templateUrl: 'app/views/deleteFuturePricePlan.html?v=' + runTime,
+        controller: 'DeleteFuturePricePlanController'
     });
 
 });

@@ -124,6 +124,7 @@
                         'CCR01': 'Credit Limit',
                         'CPD03': 'Product : Lost/stolen',
                         'C16': 'defualt สมัคร ir/idd',
+                        'CREQ': 'Customer request',
                         'DDSC': 'defualt ยกเลิก ir/idd'
                     }
                 }
