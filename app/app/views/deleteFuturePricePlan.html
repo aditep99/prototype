@@ -20,9 +20,9 @@
                                 <th class="contentTbHeader">
                                     <i class="fa fa-trash-o fa-1x" style="color:red;"></i>
                                 </th>
-                                <th class="contentTbHeader">
+                                <!-- <th class="contentTbHeader">
                                     Offer
-                                </th>
+                                </th> -->
                                 <th class="contentTbHeader">
                                     Offer Type
                                 </th>
@@ -38,19 +38,20 @@
                                 <th class="contentTbHeader">
                                     Effective Date
                                 </th>
-                                <th class="contentTbHeader">
+                                <!-- <th class="contentTbHeader">
                                     Status
-                                </th>
+                                </th> -->
                             </tr>
                             <tr ng-repeat="item in displayFuturePricePlan">
                                 <td align="center" style="vertical-align: middle;">
-                                    <input type="checkbox" id="{{item['offer-code']}}" style="cursor: pointer;">
+                                    <input ng-hide="item['offer-type']=='NXTPP'" type="checkbox" id="{{item['offer-code']}}" style="cursor: pointer;">
                                 </td>
-                                <td class="contentTb" style="text-align:center;">
+                                <!-- <td class="contentTb" style="text-align:center;">
                                     {{item['offer-code']}}
-                                </td>
+                                </td> -->
                                 <td class="contentTb" style="text-align:center;">
-                                    {{item['offer-type']}}
+                                    <span ng-if="item['offer-type']=='FUTSOC'">Future Priceplan</span>
+                                    <span ng-if="item['offer-type']=='NXTPP'">Next Priceplan</span>
                                 </td>
                                 <td class="contentTb" style="text-align:center;">
                                     {{item['order-detail']}}
@@ -64,9 +65,9 @@
                                 <td class="contentTb" style="text-align:center;">
                                     {{item['effective-date']}}
                                 </td>
-                                <td class="contentTb" style="text-align:center;">
+                                <!-- <td class="contentTb" style="text-align:center;">
                                     {{item['status']}}
-                                </td>
+                                </td> -->
                             </tr>
                         </table>
                     </div>
