@@ -8,6 +8,7 @@
     var _SR_NO = $routeParams.srnum ? $routeParams.srnum : '';
 
     this.demo = true;
+    this.demoPath = false;
     //this.secondAuthenURL = "https://sso-devt.true.th:11443/";//DEV
     //this.secondAuthenURL = "https://xxo-uat.true.th:11443/SSORESTFul/"; //UAT
     //this.secondAuthenURL = "https://xxo-uat.true.th:11443/SSORESTFul/";//PRO
@@ -24,6 +25,20 @@
         }, 3000);
     };
     //// show sr no :: by p'nin, p'mam :: 23-11-2016 :: xsam32
+
+    this.getFileJson = function(requestUrl, fnCallback) {
+
+        var webContextPath = getContextPath();
+        if (that.demoPath) {
+            webContextPath = "";
+        }
+        $http.get(webContextPath + requestUrl).success(function(response) {
+            fnCallback(response);
+        }).error(function(err) {
+            alert('Connot get file.');
+            console.log(err);
+        });
+    };
 
     this.limitAddressList = 20;
     localStorage.setItem('pdfShopCode', "");
