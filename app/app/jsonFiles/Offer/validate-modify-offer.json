@@ -1,0 +1,30 @@
+{
+    "status": "SUCCESSFUL",
+    "trx-id": "3R98J3SQGJ6M0",
+    "process-instance": "tmsapnpr1 (instance: SFF_node3)",
+    "response-data": {
+        "CREDITLIMIT": ["DELETE", "EDIT"],
+        "RMPGPS01": ["DELETE", "EDIT"],
+        "PROSTDA1": ["EDIT", "RELATED_REQUIRED"],
+        "FCVBAR": ["DELETE", "EDIT", "RELATED_OPTIONAL"],
+        "RMHSPS04": ["EDIT"],
+        "CUGFRS01": ["DELETE", "EDIT"],
+        "0RMVB00000000362": ["DELETE", "EDIT"],
+        "RMGPSS62": ["DELETE", "EDIT"],
+        "PROROAM6": ["DELETE", "EDIT"],
+        "3GVDCS01": ["DELETE", "EDIT"],
+        "BFF01S01": ["DELETE", "EDIT"],
+        "AAADDS02": ["DELETE", "EDIT"],
+        "CCUGAS01": ["DELETE", "EDIT"],
+        "CGPAUS01D": ["DELETE", "EDIT"],
+        "RMV000000000001": ["DELETE", "EDIT"],
+        "BSP001": ["DELETE", "EDIT"],
+        "EB CREDITLIMIT": null,
+        "BARNRS01": ["DELETE", "EDIT"],
+        "FFVSMS02": ["DELETE", "EDIT"],
+        "SMSAUS12G": ["DELETE", "EDIT"],
+        "000TestSetDateBUC068": ["DELETE", "EDIT"],
+        "RMV000000000603": ["DELETE", "EDIT"],
+        "CVG007": ["DELETE", "EDIT"]
+    }
+}

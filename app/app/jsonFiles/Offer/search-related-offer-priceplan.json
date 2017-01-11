@@ -1,0 +1,58 @@
+{
+  "status" : "SUCCESSFUL",
+  "trx-id" : "4C9969CN6YIC8",
+  "process-instance" : "tmsapnpr1 (instance: SFF_node3)",
+  "response-data" : [ {
+    "required" : true,
+    "offer" : {
+      "name" : "BBFERS08",
+      "soc" : null,
+      "group" : null,
+      "soc-type" : null,
+      "rc" : 0.0,
+      "max-instance-allow" : 0,
+      "service-level" : null,
+      "sale-context" : null
+    },
+    "default-selected" : true
+  }, {
+    "required" : false,
+    "offer" : {
+      "name" : "INTL",
+      "soc" : null,
+      "group" : null,
+      "soc-type" : null,
+      "rc" : 0.0,
+      "max-instance-allow" : 0,
+      "service-level" : null,
+      "sale-context" : null
+    },
+    "default-selected" : true
+  }, {
+    "required" : false,
+    "offer" : {
+      "name" : "RMPGPS12",
+      "soc" : null,
+      "group" : null,
+      "soc-type" : null,
+      "rc" : 0.0,
+      "max-instance-allow" : 0,
+      "service-level" : null,
+      "sale-context" : null
+    },
+    "default-selected" : true
+  }, {
+    "required" : true,
+    "offer" : {
+      "name" : "RMHSPS08",
+      "soc" : null,
+      "group" : null,
+      "soc-type" : null,
+      "rc" : 0.0,
+      "max-instance-allow" : 0,
+      "service-level" : null,
+      "sale-context" : null
+    },
+    "default-selected" : true
+  } ]
+}

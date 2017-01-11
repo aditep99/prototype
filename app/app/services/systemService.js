@@ -5,11 +5,27 @@
     //10/02/2016 fix
     var _WEB_METHOD_CHANNEL = "AFTERSALE_SMARTUI_WEB";
     var _REF_WEB_CHANNEL = $routeParams.channel ? $routeParams.channel : '';
+    var _SR_NO = $routeParams.srnum ? $routeParams.srnum : '';
 
     this.demo = true;
     //this.secondAuthenURL = "https://sso-devt.true.th:11443/";//DEV
     //this.secondAuthenURL = "https://xxo-uat.true.th:11443/SSORESTFul/"; //UAT
     //this.secondAuthenURL = "https://xxo-uat.true.th:11443/SSORESTFul/";//PRO
+    //// show sr no :: by p'nin, p'mam :: 23-11-2016 :: xsam32
+    this.setUrlParam = function() {
+        setTimeout(function() {
+            $('#sr_num').html(($routeParams.srnum ? $routeParams.srnum : '-'));
+        }, 1000);
+        setTimeout(function() {
+            $('#sr_num').html(($routeParams.srnum ? $routeParams.srnum : '-'));
+        }, 2000);
+        setTimeout(function() {
+            $('#sr_num').html(($routeParams.srnum ? $routeParams.srnum : '-'));
+        }, 3000);
+    };
+    //// show sr no :: by p'nin, p'mam :: 23-11-2016 :: xsam32
+
+    this.limitAddressList = 20;
     localStorage.setItem('pdfShopCode', "");
     //for get by env
     this.secondAuthenURL = getSecondAuthenURL();
@@ -61,6 +77,8 @@
     this.checkPDFAndroid_printNoneShop = function(url) {
         if (isAndroid) {
             document.getElementById('iframePDF').src = "javascript:printCanvas();";
+            /// for UMS
+            // print_androidUMS(url);
         } else {
             printObjectPdf();
         }
@@ -80,6 +98,9 @@
             // setTimeout(function() {
             //     checkLoaded();
             // }, 500);
+
+
+            //// popup chrome printer
             (function a(x) {
                 $('#loadingPrint').show();
                 setTimeout(function() {
@@ -93,11 +114,13 @@
                     return;
                 }
                 a(--x);
-            })(10);
+            })(1);
 
+            //// send to UMS printer
+            // print_androidUMS(url);
         } else {
             $(function() {
-                document.getElementById('iframePDF').src = 'pdfCanvasV4.html?action=' + action + '&url=' + url; //never mind "webui1" 
+                document.getElementById('iframePDF').src = 'pdfCanvasV4.html?action=' + action + '&url=' + url + '?clearData=N'; //never mind "webui1" 
                 $('#iframePDF').load(function() {
                     printedAndroid = true;
                 });
@@ -173,6 +196,40 @@
         });
         return result;
     };
+    this.uniqueSize = function(list, filterName) {
+        //// support angularJS only :: (array, nameForFilter) :: 8-12-2016
+        list = $filter('orderBy')(list, filterName);
+        var result = [];
+        var item = {};
+        var uniqueTxt = "";
+        var getSize = function(getName) {
+            var s = 0;
+            $.each(list, function(i, e) {
+                if (e[filterName] == getName) {
+                    s++;
+                }
+            });
+            return s;
+        };
+        $.each(list, function(i, e) {
+            if (i == 0) {
+                uniqueTxt = e[filterName];
+            }
+            if (e[filterName] == uniqueTxt) {
+                item = e;
+                item['dupSize'] = getSize(uniqueTxt);
+            } else {
+                result.push(item);
+                uniqueTxt = e[filterName];
+                item = {};
+            }
+            if (i == list.length - 1) {
+                item['dupSize'] = getSize(uniqueTxt);
+                result.push(item);
+            }
+        });
+        return result;
+    };
     //trim
     this.myTrim = function(str) {
         var x = str;
@@ -225,7 +282,7 @@
                         bbArr = a.concat(b).concat(c);
                     } else {
                         var a = $filter('filter')(bbArr, { "name": txtList[i] });
-                        var b = $filter('filter')(arrList, { "description": txtList[i] });
+                        var b = $filter('filter')(bbArr, { "description": txtList[i] });
                         var c = $filter('filter')(bbArr, { "rc": txtList[i] });
                         bbArr = a.concat(b).concat(c);
                     }
@@ -316,7 +373,8 @@
                 'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
                 'E2E_REFID': localStorage.getItem('orderId'),
                 'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+                'SR_NO': _SR_NO
                     // ,
                     // 'ssoEmployeePrincipal': localStorage.getItem('ssoEmployeePrincipal'),
                     // 'ssoPartnerPrincipal': localStorage.getItem('ssoPartnerPrincipal')
@@ -384,7 +442,8 @@
                 'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
                 'E2E_REFID': localStorage.getItem('orderId'),
                 'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+                'SR_NO': _SR_NO
                     // ,
                     // 'ssoEmployeePrincipal': localStorage.getItem('ssoEmployeePrincipal'),
                     // 'ssoPartnerPrincipal': localStorage.getItem('ssoPartnerPrincipal')
@@ -460,7 +519,8 @@
                 'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
                 'E2E_REFID': localStorage.getItem('orderId'),
                 'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+                'SR_NO': _SR_NO
                     // ,
                     // 'ssoEmployeePrincipal': localStorage.getItem('ssoEmployeePrincipal'),
                     // 'ssoPartnerPrincipal': localStorage.getItem('ssoPartnerPrincipal')
@@ -532,7 +592,8 @@
                 'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
                 'E2E_REFID': localStorage.getItem('orderId'),
                 'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+                'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+                'SR_NO': _SR_NO
                     // ,
                     // 'ssoEmployeePrincipal': localStorage.getItem('ssoEmployeePrincipal'),
                     // 'ssoPartnerPrincipal': localStorage.getItem('ssoPartnerPrincipal')
@@ -590,7 +651,8 @@
             'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
             'E2E_REFID': localStorage.getItem('orderId'),
             'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-            'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+            'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+            'SR_NO': _SR_NO
                 // ,
                 // 'ssoEmployeePrincipal': localStorage.getItem('ssoEmployeePrincipal'),
                 // 'ssoPartnerPrincipal': localStorage.getItem('ssoPartnerPrincipal')
@@ -817,17 +879,20 @@
             'WEB_METHOD_CHANNEL': _WEB_METHOD_CHANNEL,
             'E2E_REFID': localStorage.getItem('orderId'),
             'REF_WEB_CHANNEL': _REF_WEB_CHANNEL,
-            'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode')
+            'SELECTED_SHOPCODE': localStorage.getItem('selectedShopCode'),
+            'SR_NO': _SR_NO
         };
         console.log(httpRequest);
         if (!that.demo) {
 
             $http(httpRequest).success(function(response) {
                 url = getURL('report/view/pdf/') + response.reportId + '.action';
+                localStorage.setItem('urlx', url);
                 fnCallback(url);
             });
         } else {
-            url = 'PDFs/AfterSaleReport.pdf';
+            url = 'PDFs/issueIDCard.pdf';
+            localStorage.setItem('urlx', url);
             fnCallback(url);
         }
     };
@@ -1335,6 +1400,26 @@
 
         $ngBootbox.customDialog({
             templateUrl: 'app/views/ngBootbox-template.html?v=' + runTime,
+            onEscape: function() {
+                return false;
+            },
+            show: true,
+            backdrop: true,
+            closeButton: false,
+            animate: true
+        });
+        setTimeout(function() {
+            $("#btn_ngbOK").focus();
+        }, 800);
+
+    };
+    this.showAlertAddDiscountOffer = function(msgModel) {
+        //ModalService.showAlert(msgModel);
+
+        that.ngDialogData = msgModel;
+
+        $ngBootbox.customDialog({
+            templateUrl: 'app/views/ngBootbox-template-addDiscountOffer.html?v=' + runTime,
             onEscape: function() {
                 return false;
             },
@@ -2007,11 +2092,27 @@
             startDate: date
         });
 
+        $('.date-picker-start-en').datepicker({
+            clearBtn: true,
+            autoclose: true,
+            todayHighlight: true,
+            language: 'th-en',
+            startDate: date
+        });
+
         $('.date-picker-today').datepicker({
             clearBtn: true,
             autoclose: true,
             todayHighlight: true,
             language: 'th-th',
+            startDate: dateNow
+        });
+
+        $('.date-picker-today-en').datepicker({
+            clearBtn: true,
+            autoclose: true,
+            todayHighlight: true,
+            language: 'th-en',
             startDate: dateNow
         });
 
@@ -2415,6 +2516,19 @@
             return "";
         }
     };
+    this.convertDataMMDDYYYYEN = function(date, lang) {
+        if (date) {
+            var ssc = "/";
+            var arr = date.split("/");
+            if (lang == "TH") {
+                return "" + arr[1] + ssc + arr[0] + ssc + (Number(arr[2]) + 543)
+            } else {
+                return "" + arr[1] + ssc + arr[0] + ssc + arr[2];
+            }
+        } else {
+            return "";
+        }
+    };
     this.getContactNo = function(contactNo, returnField) {
         //contactNO : "02994848#123
         //returnField : "number" || "continued"
@@ -2512,533 +2626,858 @@
         if (that.demo) {
             var data = {
                 "status": "SUCCESSFUL",
-                "trx-id": "4I1AKKSUOGER5",
-                "process-instance": "tmsapnpr1 (instance: SFF_node4)",
+                "trx-id": "4D87QRXEQK9JO",
+                "process-instance": "tmsapnpr1 (instance: SFF_node3)",
                 "response-data": [{
-                    "subdistrict": "ตลาด",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
+                    "subdistrict": "โพธิ์สามต้น",
+                    "district": "บางปะหัน",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13220"
                 }, {
-                    "subdistrict": "ตลาด",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10132"
+                    "subdistrict": "สามขา",
+                    "district": "โพนทราย",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45240"
+                }, {
+                    "subdistrict": "วังสามัคคี",
+                    "district": "โพนทอง",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45110"
+                }, {
+                    "subdistrict": "สามเรือน",
+                    "district": "บางปะอิน",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13160"
+                }, {
+                    "subdistrict": "ดุมใหญ่",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "เตย",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "นาเลิง",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "ไผ่ใหญ่",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "โพนแพง",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "ม่วงสามสิบ",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "ยางโยภาพ",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "ยางสักกระโพหลุ่ม",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "หนองไข่นก",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "หนองช้างใหญ่",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "หนองเมือง",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "หนองเหล่า",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "หนองฮาง",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "เหล่าบก",
+                    "district": "ม่วงสามสิบ",
+                    "province": "อุบลราชธานี",
+                    "zipcode": "34140"
+                }, {
+                    "subdistrict": "เขาสามสิบหาบ",
+                    "district": "ท่ามะกา",
+                    "province": "กาญจนบุรี",
+                    "zipcode": "71120"
+                }, {
+                    "subdistrict": "สามเสนนอก",
+                    "district": "ห้วยขวาง",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10310"
+                }, {
+                    "subdistrict": "สามเสนใน",
+                    "district": "พญาไท",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10400"
+                }, {
+                    "subdistrict": "สามเสนใน",
+                    "district": "พญาไท",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10404"
+                }, {
+                    "subdistrict": "สามเสนใน",
+                    "district": "พญาไท",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10406"
+                }, {
+                    "subdistrict": "สามเสนใน",
+                    "district": "พญาไท",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10411"
+                }, {
+                    "subdistrict": "โชคนาสาม",
+                    "district": "ปราสาท",
+                    "province": "สุรินทร์",
+                    "zipcode": "32140"
+                }, {
+                    "subdistrict": "สามเรือน",
+                    "district": "ศรีสำโรง",
+                    "province": "สุโขทัย",
+                    "zipcode": "64120"
+                }, {
+                    "subdistrict": "ห้วยสามพาด",
+                    "district": "ประจักษ์ศิลปาคม",
+                    "province": "อุดรธานี",
+                    "zipcode": "41110"
+                }, {
+                    "subdistrict": "ขี้เหล็ก",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "บ้านแจ้ง",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "บ้านดู่",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "โพนเมือง",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "หนองขาม",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "หนองบัว",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "หนองหมื่นถ่าน",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "หน่อม",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "โหรา",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "อาจสามารถ",
+                    "district": "อาจสามารถ",
+                    "province": "ร้อยเอ็ด",
+                    "zipcode": "45160"
+                }, {
+                    "subdistrict": "กันจุ",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "ซับไม้แดง",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "ซับสมอทอด",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "บึงสามพัน",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "พญาวัง",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "วังพิกุล",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67230"
+                }, {
+                    "subdistrict": "ศรีมงคล",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "สระแก้ว",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "หนองแจง",
+                    "district": "บึงสามพัน",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67160"
+                }, {
+                    "subdistrict": "นาพันสาม",
+                    "district": "เมืองเพชรบุรี",
+                    "province": "เพชรบุรี",
+                    "zipcode": "76000"
+                }, {
+                    "subdistrict": "ช่องสามหมอ",
+                    "district": "คอนสวรรค์",
+                    "province": "ชัยภูมิ",
+                    "zipcode": "36140"
+                }, {
+                    "subdistrict": "สามเมือง",
+                    "district": "สีดา",
+                    "province": "นครราชสีมา",
+                    "zipcode": "30430"
+                }, {
+                    "subdistrict": "อาจสามารถ",
+                    "district": "เมืองนครพนม",
+                    "province": "นครพนม",
+                    "zipcode": "48000"
+                }, {
+                    "subdistrict": "สามผง",
+                    "district": "ศรีสงคราม",
+                    "province": "นครพนม",
+                    "zipcode": "48150"
+                }, {
+                    "subdistrict": "กำแพงดิน",
+                    "district": "สามง่าม",
+                    "province": "พิจิตร",
+                    "zipcode": "66220"
+                }, {
+                    "subdistrict": "เนินปอ",
+                    "district": "สามง่าม",
+                    "province": "พิจิตร",
+                    "zipcode": "66140"
+                }, {
+                    "subdistrict": "รังนก",
+                    "district": "สามง่าม",
+                    "province": "พิจิตร",
+                    "zipcode": "66140"
+                }, {
+                    "subdistrict": "สามง่าม",
+                    "district": "สามง่าม",
+                    "province": "พิจิตร",
+                    "zipcode": "66140"
+                }, {
+                    "subdistrict": "หนองโสน",
+                    "district": "สามง่าม",
+                    "province": "พิจิตร",
+                    "zipcode": "66140"
+                }, {
+                    "subdistrict": "สามง่ามท่าโบสถ์",
+                    "district": "หันคา",
+                    "province": "ชัยนาท",
+                    "zipcode": "17160"
+                }, {
+                    "subdistrict": "สามพี่น้อง",
+                    "district": "แก่งหางแมว",
+                    "province": "จันทบุรี",
+                    "zipcode": "22160"
+                }, {
+                    "subdistrict": "สามสวน",
+                    "district": "บ้านแท่น",
+                    "province": "ชัยภูมิ",
+                    "zipcode": "36190"
+                }, {
+                    "subdistrict": "สามควายเผือก",
+                    "district": "เมืองนครปฐม",
+                    "province": "นครปฐม",
+                    "zipcode": "73000"
+                }, {
+                    "subdistrict": "กระทุ่มล้ม",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73220"
+                }, {
+                    "subdistrict": "คลองจินดา",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "คลองใหม่",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "ตลาดจินดา",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
                 }, {
                     "subdistrict": "ทรงคนอง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางกระสอบ",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางกอบัว",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางกะเจ้า",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางครุ",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางจาก",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางน้ำผึ้ง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "โนนสูง",
-                    "district": "เมืองอุดรธานี",
-                    "province": "อุดรธานี",
-                    "zipcode": "41010"
-                }, {
-                    "subdistrict": "คลองเตยเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10117"
-                }, {
-                    "subdistrict": "พระโขนงเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
-                }, {
-                    "subdistrict": "ช้างคลาน",
-                    "district": "เมืองเชียงใหม่",
-                    "province": "เชียงใหม่",
-                    "zipcode": "50101"
-                }, {
-                    "subdistrict": "จักรวรรดิ์",
-                    "district": "สัมพันธวงศ์",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "จักรวรรดิ์",
-                    "district": "สัมพันธวงศ์",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10101"
-                }, {
-                    "subdistrict": "ตลาดน้อย",
-                    "district": "สัมพันธวงศ์",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "สัมพันธวงศ์",
-                    "district": "สัมพันธวงศ์",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "ทุ่งมหาเมฆ",
-                    "district": "สาทร",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "ทุ่งมหาเมฆ",
-                    "district": "สาทร",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10121"
-                }, {
-                    "subdistrict": "ทุ่งวัดดอน",
-                    "district": "สาทร",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "ยานนาวา",
-                    "district": "สาทร",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "หนองแขม",
-                    "district": "หนองแขม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "หนองค้างพลู",
-                    "district": "หนองแขม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางปะกอก",
-                    "district": "ราษฎร์บูรณะ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10140"
-                }, {
-                    "subdistrict": "บางปะกอก",
-                    "district": "ราษฎร์บูรณะ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10141"
-                }, {
-                    "subdistrict": "ราษฎร์บูรณะ",
-                    "district": "ราษฎร์บูรณะ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10140"
-                }, {
-                    "subdistrict": "คลองตันเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
-                }, {
-                    "subdistrict": "คลองตันเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10116"
-                }, {
-                    "subdistrict": "คลองเตยเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
-                }, {
-                    "subdistrict": "คลองเตยเหนือ",
-                    "district": "วัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10114"
-                }, {
-                    "subdistrict": "คลองขวาง",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "คูหาสวรรค์",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางจาก",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางด้วน",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางแวก",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางหว้า",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางหว้า",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10161"
-                }, {
-                    "subdistrict": "บางหว้า",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10163"
-                }, {
-                    "subdistrict": "ปากคลองภาษีเจริญ",
-                    "district": "ภาษีเจริญ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "หนองแขม",
-                    "district": "หนองแขม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10164"
-                }, {
-                    "subdistrict": "ช่องนนทรี",
-                    "district": "ยานนาวา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "บางโพงพาง",
-                    "district": "ยานนาวา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "บางโพงพาง",
-                    "district": "ยานนาวา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10124"
-                }, {
-                    "subdistrict": "บางโพงพาง",
-                    "district": "ยานนาวา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10125"
-                }, {
-                    "subdistrict": "คลองมหานาค",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "บ้านบาตร",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "ป้อมปราบ",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "ป้อมปราบ",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10103"
-                }, {
-                    "subdistrict": "วัดเทพศิรินทร์",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "วัดโสมนัส",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10100"
-                }, {
-                    "subdistrict": "วัดโสมนัส",
-                    "district": "ป้อมปราบศัตรูพ่าย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10102"
-                }, {
-                    "subdistrict": "วังใหม่",
-                    "district": "ปทุมวัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
-                }, {
-                    "subdistrict": "วังใหม่",
-                    "district": "ปทุมวัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
-                }, {
-                    "subdistrict": "บางแคเหนือ",
-                    "district": "บางแค",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางไผ่",
-                    "district": "บางแค",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "หลักสอง",
-                    "district": "บางแค",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
-                }, {
-                    "subdistrict": "บางบอน",
-                    "district": "บางบอน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
-                }, {
-                    "subdistrict": "บางบอน",
-                    "district": "บางบอน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10151"
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73210"
                 }, {
                     "subdistrict": "ท่าข้าม",
-                    "district": "บางขุนเทียน",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "ท่าตลาด",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "บางกระทึก",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73210"
+                }, {
+                    "subdistrict": "บางช้าง",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "บางเตย",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73210"
+                }, {
+                    "subdistrict": "บ้านใหม่",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "ยายชา",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "ไร่ขิง",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73210"
+                }, {
+                    "subdistrict": "สามพราน",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "หอมเกร็ด",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73110"
+                }, {
+                    "subdistrict": "อ้อมใหญ่",
+                    "district": "สามพราน",
+                    "province": "นครปฐม",
+                    "zipcode": "73160"
+                }, {
+                    "subdistrict": "สามไถ",
+                    "district": "นครหลวง",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13260"
+                }, {
+                    "subdistrict": "สามตำบล",
+                    "district": "จุฬาภรณ์",
+                    "province": "นครศรีธรรมราช",
+                    "zipcode": "80130"
+                }, {
+                    "subdistrict": "ไทยสามัคคี",
+                    "district": "วังน้ำเขียว",
+                    "province": "นครราชสีมา",
+                    "zipcode": "30370"
+                }, {
+                    "subdistrict": "ช่องสามหมอ",
+                    "district": "แก้งคร้อ",
+                    "province": "ชัยภูมิ",
+                    "zipcode": "36150"
+                }, {
+                    "subdistrict": "สามง่าม",
+                    "district": "ดอนตูม",
+                    "province": "นครปฐม",
+                    "zipcode": "73150"
+                }, {
+                    "subdistrict": "สามแวง",
+                    "district": "ห้วยราช",
+                    "province": "บุรีรัมย์",
+                    "zipcode": "31000"
+                }, {
+                    "subdistrict": "คลองสาม",
+                    "district": "คลองหลวง",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12120"
+                }, {
+                    "subdistrict": "ไทยสามัคคี",
+                    "district": "หนองหงส์",
+                    "province": "บุรีรัมย์",
+                    "zipcode": "31240"
+                }, {
+                    "subdistrict": "คลองสามประเวศ",
+                    "district": "ลาดกระบัง",
                     "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
+                    "zipcode": "10520"
                 }, {
-                    "subdistrict": "แสมดำ",
-                    "district": "บางขุนเทียน",
+                    "subdistrict": "วัดสามพระยา",
+                    "district": "พระนคร",
                     "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
+                    "zipcode": "10200"
                 }, {
-                    "subdistrict": "แสมดำ",
-                    "district": "บางขุนเทียน",
+                    "subdistrict": "วัดสามพระยา",
+                    "district": "พระนคร",
                     "province": "กรุงเทพมหานคร",
-                    "zipcode": "10152"
+                    "zipcode": "10205"
                 }, {
-                    "subdistrict": "บางคอแหลม",
-                    "district": "บางคอแหลม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
+                    "subdistrict": "สามพวง",
+                    "district": "คีรีมาศ",
+                    "province": "สุโขทัย",
+                    "zipcode": "64160"
                 }, {
-                    "subdistrict": "บางคอแหลม",
-                    "district": "บางคอแหลม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10122"
+                    "subdistrict": "สามหมื่น",
+                    "district": "แม่ระมาด",
+                    "province": "ตาก",
+                    "zipcode": "63140"
                 }, {
-                    "subdistrict": "บางโคล่",
-                    "district": "บางคอแหลม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
+                    "subdistrict": "บ้านนา",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "วัดพระยาไกร",
-                    "district": "บางคอแหลม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10120"
+                    "subdistrict": "ยกกระบัตร",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "วัดพระยาไกร",
-                    "district": "บางคอแหลม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10123"
+                    "subdistrict": "ย่านรี",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "บางแค",
-                    "district": "บางแค",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10160"
+                    "subdistrict": "วังจันทร์",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "คลองชักพระ",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "วังหมัน",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "ฉิมพลี",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "สามเงา",
+                    "district": "สามเงา",
+                    "province": "ตาก",
+                    "zipcode": "63130"
                 }, {
-                    "subdistrict": "ตลิ่งชัน",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "ไร่เก่า",
+                    "district": "สามร้อยยอด",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77180"
                 }, {
-                    "subdistrict": "บางเชือกหนัง",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "ไร่ใหม่",
+                    "district": "สามร้อยยอด",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77180"
                 }, {
-                    "subdistrict": "บางพรม",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "ศาลาลัย",
+                    "district": "สามร้อยยอด",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77180"
                 }, {
-                    "subdistrict": "บางระมาด",
-                    "district": "ตลิ่งชัน",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "ศิลาลอย",
+                    "district": "สามร้อยยอด",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77180"
                 }, {
-                    "subdistrict": "ทวีวัฒนา",
-                    "district": "ทวีวัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "สามร้อยยอด",
+                    "district": "สามร้อยยอด",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77120"
                 }, {
-                    "subdistrict": "ศาลาธรรมสพน์",
-                    "district": "ทวีวัฒนา",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10170"
+                    "subdistrict": "กระแชง",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "ทุ่งครุ",
-                    "district": "ทุ่งครุ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10140"
+                    "subdistrict": "คลองควาย",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "บางมด",
-                    "district": "ทุ่งครุ",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10140"
+                    "subdistrict": "เชียงรากน้อย",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "คลองตัน",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
+                    "subdistrict": "เชียงรากใหญ่",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "คลองเตย",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
+                    "subdistrict": "ท้ายเกาะ",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "คลองเตย",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10111"
+                    "subdistrict": "บางกระบือ",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "หนองค้างพลู",
-                    "district": "หนองแขม",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10162"
+                    "subdistrict": "บางเตย",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "จอมทอง",
-                    "district": "จอมทอง",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
+                    "subdistrict": "บางโพธิ์เหนือ",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "บางขุนเทียน",
-                    "district": "จอมทอง",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
+                    "subdistrict": "บ้านงิ้ว",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "บางค้อ",
-                    "district": "จอมทอง",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
-                }, {
-                    "subdistrict": "บางมด",
-                    "district": "จอมทอง",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10150"
-                }, {
-                    "subdistrict": "คลองเตย",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10112"
-                }, {
-                    "subdistrict": "คลองเตย",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10113"
-                }, {
-                    "subdistrict": "พระโขนง",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10110"
-                }, {
-                    "subdistrict": "พระโขนง",
-                    "district": "คลองเตย",
-                    "province": "กรุงเทพมหานคร",
-                    "zipcode": "10115"
-                }, {
-                    "subdistrict": "อุโมงค์",
-                    "district": "เมืองลำพูน",
-                    "province": "ลำพูน",
-                    "zipcode": "51010"
-                }, {
-                    "subdistrict": "บางพึ่ง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางยอ",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางหญ้าแพรก",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "บางหัวเสือ",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "สำโรง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "สำโรงกลาง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "สำโรงกลาง",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10131"
-                }, {
-                    "subdistrict": "สำโรงใต้",
-                    "district": "พระประแดง",
-                    "province": "สมุทรปราการ",
-                    "zipcode": "10130"
-                }, {
-                    "subdistrict": "สันปูเลย",
-                    "district": "ดอยสะเก็ด",
-                    "province": "เชียงใหม่",
-                    "zipcode": "50220"
-                }, {
-                    "subdistrict": "นาดี",
-                    "district": "ด่านซ้าย",
+                    "subdistrict": "ผาสามยอด",
+                    "district": "เอราวัณ",
                     "province": "เลย",
-                    "zipcode": "42120"
+                    "zipcode": "42220"
                 }, {
-                    "subdistrict": "นาหอ",
-                    "district": "ด่านซ้าย",
-                    "province": "เลย",
-                    "zipcode": "42120"
+                    "subdistrict": "บ้านปทุม",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "ปากหมัน",
-                    "district": "ด่านซ้าย",
-                    "province": "เลย",
-                    "zipcode": "42120"
+                    "subdistrict": "สามโคก",
+                    "district": "สามโคก",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12160"
                 }, {
-                    "subdistrict": "โป่ง",
-                    "district": "ด่านซ้าย",
-                    "province": "เลย",
-                    "zipcode": "42120"
+                    "subdistrict": "สามพระยา",
+                    "district": "ชะอำ",
+                    "province": "เพชรบุรี",
+                    "zipcode": "76120"
                 }, {
-                    "subdistrict": "โพนสูง",
-                    "district": "ด่านซ้าย",
-                    "province": "เลย",
-                    "zipcode": "42120"
+                    "subdistrict": "สามกอ",
+                    "district": "เสนา",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13110"
                 }, {
-                    "subdistrict": "วังยาว",
-                    "district": "ด่านซ้าย",
-                    "province": "เลย",
-                    "zipcode": "42120"
+                    "subdistrict": "สามตุ่ม",
+                    "district": "เสนา",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13110"
+                }, {
+                    "subdistrict": "โพธิ์ม่วงพันธ์",
+                    "district": "สามโก้",
+                    "province": "อ่างทอง",
+                    "zipcode": "14160"
+                }, {
+                    "subdistrict": "สามเมือง",
+                    "district": "ลาดบัวหลวง",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13230"
+                }, {
+                    "subdistrict": "เทพนิมิต",
+                    "district": "บึงสามัคคี",
+                    "province": "กำแพงเพชร",
+                    "zipcode": "62210"
+                }, {
+                    "subdistrict": "บึงสามัคคี",
+                    "district": "บึงสามัคคี",
+                    "province": "กำแพงเพชร",
+                    "zipcode": "62210"
+                }, {
+                    "subdistrict": "ระหาน",
+                    "district": "บึงสามัคคี",
+                    "province": "กำแพงเพชร",
+                    "zipcode": "62210"
+                }, {
+                    "subdistrict": "วังชะโอน",
+                    "district": "บึงสามัคคี",
+                    "province": "กำแพงเพชร",
+                    "zipcode": "62210"
+                }, {
+                    "subdistrict": "สามัคคี",
+                    "district": "ร่องคำ",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46210"
+                }, {
+                    "subdistrict": "คำสร้างเที่ยง",
+                    "district": "สามชัย",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46180"
+                }, {
+                    "subdistrict": "สำราญ",
+                    "district": "สามชัย",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46180"
+                }, {
+                    "subdistrict": "สำราญใต้",
+                    "district": "สามชัย",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46180"
+                }, {
+                    "subdistrict": "หนองช้าง",
+                    "district": "สามชัย",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46180"
+                }, {
+                    "subdistrict": "สามขา",
+                    "district": "กุฉินารายณ์",
+                    "province": "กาฬสินธุ์",
+                    "zipcode": "46110"
+                }, {
+                    "subdistrict": "หนองสามสี",
+                    "district": "เสนางคนิคม",
+                    "province": "อำนาจเจริญ",
+                    "zipcode": "37290"
+                }, {
+                    "subdistrict": "สามัคคีพัฒนา",
+                    "district": "อากาศอำนวย",
+                    "province": "สกลนคร",
+                    "zipcode": "47170"
+                }, {
+                    "subdistrict": "เขาสามสิบ",
+                    "district": "เขาฉกรรจ์",
+                    "province": "สระแก้ว",
+                    "zipcode": "27000"
+                }, {
+                    "subdistrict": "บึงกาสาม",
+                    "district": "หนองเสือ",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12170"
+                }, {
+                    "subdistrict": "หนองสามวัง",
+                    "district": "หนองเสือ",
+                    "province": "ปทุมธานี",
+                    "zipcode": "12170"
+                }, {
+                    "subdistrict": "สามกระทาย",
+                    "district": "กุยบุรี",
+                    "province": "ประจวบคีรีขันธ์",
+                    "zipcode": "77150"
+                }, {
+                    "subdistrict": "ทรายกองดิน",
+                    "district": "คลองสามวา",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10510"
+                }, {
+                    "subdistrict": "ทรายกองดินใต้",
+                    "district": "คลองสามวา",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10510"
+                }, {
+                    "subdistrict": "บางชัน",
+                    "district": "คลองสามวา",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10510"
+                }, {
+                    "subdistrict": "สามวาตะวันตก",
+                    "district": "คลองสามวา",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10510"
+                }, {
+                    "subdistrict": "สามวาตะวันออก",
+                    "district": "คลองสามวา",
+                    "province": "กรุงเทพมหานคร",
+                    "zipcode": "10510"
+                }, {
+                    "subdistrict": "มงคลธรรมนิมิต",
+                    "district": "สามโก้",
+                    "province": "อ่างทอง",
+                    "zipcode": "14160"
+                }, {
+                    "subdistrict": "ราษฎรพัฒนา",
+                    "district": "สามโก้",
+                    "province": "อ่างทอง",
+                    "zipcode": "14160"
+                }, {
+                    "subdistrict": "สามโก้",
+                    "district": "สามโก้",
+                    "province": "อ่างทอง",
+                    "zipcode": "14160"
+                }, {
+                    "subdistrict": "อบทม",
+                    "district": "สามโก้",
+                    "province": "อ่างทอง",
+                    "zipcode": "14160"
+                }, {
+                    "subdistrict": "สามง่าม",
+                    "district": "โพธิ์ทอง",
+                    "province": "อ่างทอง",
+                    "zipcode": "14120"
+                }, {
+                    "subdistrict": "สามัคคี",
+                    "district": "รือเสาะ",
+                    "province": "นราธิวาส",
+                    "zipcode": "96150"
+                }, {
+                    "subdistrict": "กระเสียว",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "บ้านสระ",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "ย่านยาว",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "วังลึก",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "สามชุก",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "หนองผักนาก",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "หนองสะเดา",
+                    "district": "สามชุก",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72130"
+                }, {
+                    "subdistrict": "จรเข้สามพัน",
+                    "district": "อู่ทอง",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "71170"
+                }, {
+                    "subdistrict": "จรเข้สามพัน",
+                    "district": "อู่ทอง",
+                    "province": "สุพรรณบุรี",
+                    "zipcode": "72160"
+                }, {
+                    "subdistrict": "สามแยก",
+                    "district": "วิเชียรบุรี",
+                    "province": "เพชรบูรณ์",
+                    "zipcode": "67130"
+                }, {
+                    "subdistrict": "หลักสาม",
+                    "district": "บ้านแพ้ว",
+                    "province": "สมุทรสาคร",
+                    "zipcode": "74120"
+                }, {
+                    "subdistrict": "สามแยก",
+                    "district": "เลิงนกทา",
+                    "province": "ยโสธร",
+                    "zipcode": "35120"
+                }, {
+                    "subdistrict": "สามัคคี",
+                    "district": "เลิงนกทา",
+                    "province": "ยโสธร",
+                    "zipcode": "35120"
+                }, {
+                    "subdistrict": "แม่สามแลบ",
+                    "district": "สบเมย",
+                    "province": "แม่ฮ่องสอน",
+                    "zipcode": "58110"
+                }, {
+                    "subdistrict": "เขาสามยอด",
+                    "district": "เมืองลพบุรี",
+                    "province": "ลพบุรี",
+                    "zipcode": "15000"
+                }, {
+                    "subdistrict": "สามเรือน",
+                    "district": "เมืองราชบุรี",
+                    "province": "ราชบุรี",
+                    "zipcode": "70000"
+                }, {
+                    "subdistrict": "บ้านใหม่สามัคคี",
+                    "district": "ชัยบาดาล",
+                    "province": "ลพบุรี",
+                    "zipcode": "15130"
+                }, {
+                    "subdistrict": "สามบัณฑิต",
+                    "district": "อุทัย",
+                    "province": "พระนครศรีอยุธยา",
+                    "zipcode": "13210"
+                }, {
+                    "subdistrict": "สามพร้าว",
+                    "district": "เมืองอุดรธานี",
+                    "province": "อุดรธานี",
+                    "zipcode": "41000"
+                }, {
+                    "subdistrict": "คำโคกสูง",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "บะยาว",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "ผาสุก",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "วังสามหมอ",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "หนองกุงทับม้า",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "หนองหญ้าไซ",
+                    "district": "วังสามหมอ",
+                    "province": "อุดรธานี",
+                    "zipcode": "41280"
+                }, {
+                    "subdistrict": "สามัคคี",
+                    "district": "น้ำโสม",
+                    "province": "อุดรธานี",
+                    "zipcode": "41210"
                 }]
             };
 
