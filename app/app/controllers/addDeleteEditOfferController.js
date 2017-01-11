@@ -2223,6 +2223,12 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
             $('#idBindDataAgain').click();
         }, 50);
     }
+    $scope.rowClickDistributionOffer = function (tableID, item) {
+        $('#' + tableID + ' tr').click(function() {
+            $(this).find('td input:radio').prop('checked', true);
+        })
+        $scope.pickEventDistributionOffer = item;
+    }
     $scope.checkboxRowClick = function(tableID) {
         $('#' + tableID + ' tr').click(function() {
             $(this).find('td input:checkbox').prop('checked', true);
@@ -4253,16 +4259,384 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
             $scope.splitCodeList = $filter('filter')(splitCodeList, txtSearch);
         }
     };
+    $scope.smartSearchPayChannel = function(txtSearch) {
+        if (txtSearch) {
+            $scope.pickPayChannel = '';
+            $scope.currentPage_PayChannel = 1;
+        }
+
+        if (txtSearch.indexOf(' ') > 0) {
+            var txtList = txtSearch.split(' ');
+            var arr = payChannelLists;
+            console.log(txtList);
+            for (var i = 0; i < txtList.length; i++) {
+                arr = $filter('filter')(arr, txtList[i]);
+            }
+            $scope.payChannelLists = arr;
+        } else {
+            $scope.payChannelLists = $filter('filter')(payChannelLists, txtSearch);
+        }
+    };
+    $scope.smartSearchEventOffer = function(txtSearch) {
+        if (txtSearch) {
+            $scope.pickEventDistributionOffer = '';
+            $scope.currentPage_EventDistributionOffer = 1;
+        }
+
+        if (txtSearch.indexOf(' ') > 0) {
+            var txtList = txtSearch.split(' ');
+            var arr = eventDistributionOfferLists;
+            console.log(txtList);
+            for (var i = 0; i < txtList.length; i++) {
+                arr = $filter('filter')(arr, txtList[i]);
+            }
+            $scope.eventDistributionOfferLists = arr;
+        } else {
+            $scope.eventDistributionOfferLists = $filter('filter')(eventDistributionOfferLists, txtSearch);
+        }
+    };
     $scope.confirmSelectSplitCode = function() {
         $scope.chargeDistributionLists[0]['split-code'] = $scope.selectSplitCode;
     };
+    $scope.confirmPayChennel = function() {
+        $scope.selectedPayChannel = $scope.pickPayChannel;
+        console.log($scope.selectedPayChannel);
+    };
+    $scope.eventDistributionLists = [];
+    $scope.confirmSelectOffer = function() {
+        $scope.pickEventDistributionOffer.guID = SystemService.guid();
+        $scope.eventDistributionLists.push($scope.pickEventDistributionOffer);
+        console.log($scope.eventDistributionLists);
+    }
     $scope.onSearchSplitCode = function() {
         $scope.searchSplitCode = '';
         $scope.selectSplitCode = '';
         $scope.currentPage_splitCode = 1;
         $('.radioSplitCode').prop('checked', false);
     };
-    $scope.setSplitCodeValue = function (item) {
+    $scope.onSearchPayChannel = function() {
+        $scope.searchPayChannel = '';
+        $scope.pickPayChannel = '';
+        $scope.currentPage_PayChannel = 1;
+        $('.radioPayChannel').prop('checked', false);
+    };
+    $scope.onSearchEventDistributionOffer = function() {
+        $scope.txtSearchEventOffer = '';
+        $scope.pickEventDistributionOffer = '';
+        $scope.currentPage_EventDistributionOffer = 1;
+        $('.radioEventDistribution').prop('checked', false);
+    };
+    $scope.setSplitCodeValue = function(item) {
         $scope.selectSplitCode = item['split-code'];
+    };
+    $scope.setPayChannelValue = function(item) {
+        $scope.pickPayChannel = item;
+    };
+    $scope.deleteEventOffer = function(item) {
+        for (var i = 0; i < $scope.eventDistributionLists.length; i++) {
+            if (item.guID == $scope.eventDistributionLists[i].guID) {
+                $scope.eventDistributionLists.splice(i, 1);
+                break;
+            }
+        }
+        console.log($scope.eventDistributionLists);
     }
+
+    $scope.searchPayChannel = '';
+    $scope.selectPayChannel = '';
+    $scope.currentPage_PayChannel = 1;
+    $scope.pageSize_PayChannel = 5;
+    $scope.eventDistributionCurrentPage = 1;
+    $scope.eventDistributionPageSize = 5;
+    $scope.payChannelLists = [{
+        'customer-name': 'Pay Channel 01',
+        'account-id': '0001',
+        'account-name': 'Pay01'
+    }, {
+        'customer-name': 'Pay Channel 02',
+        'account-id': '0002',
+        'account-name': 'Pay02'
+    }, {
+        'customer-name': 'Pay Channel 03',
+        'account-id': '0003',
+        'account-name': 'Pay03'
+    }, {
+        'customer-name': 'Pay Channel 04',
+        'account-id': '0004',
+        'account-name': 'Pay04'
+    }, {
+        'customer-name': 'Pay Channel 05',
+        'account-id': '0005',
+        'account-name': 'Pay05'
+    }, {
+        'customer-name': 'Pay Channel 06',
+        'account-id': '0006',
+        'account-name': 'Pay06'
+    }, {
+        'customer-name': 'Pay Channel 07',
+        'account-id': '0007',
+        'account-name': 'Pay07'
+    }, {
+        'customer-name': 'Pay Channel 08',
+        'account-id': '0008',
+        'account-name': 'Pay08'
+    }, {
+        'customer-name': 'Pay Channel 09',
+        'account-id': '0009',
+        'account-name': 'Pay09'
+    }, {
+        'customer-name': 'Pay Channel 10',
+        'account-id': '0010',
+        'account-name': 'Pay10'
+    }];
+    var payChannelLists = $scope.payChannelLists;
+    $scope.selectedPayChannel = [];
+    $scope.secondPayChannelPageSize = 5;
+    $scope.secondPayChannelCurrentPage = 1;
+    $scope.currentPage_EventDistributionOffer = 1;
+    $scope.eventDistributionOfferLists = [{
+        "name": "TEST001",
+        "description": "Test event distribution offer 01",
+        "soc": "000001",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST002",
+        "description": "Test event distribution offer 02",
+        "soc": "000002",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST003",
+        "description": "Test event distribution offer 03",
+        "soc": "000003",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST004",
+        "description": "Test event distribution offer 04",
+        "soc": "000004",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST005",
+        "description": "Test event distribution offer 05",
+        "soc": "000005",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST006",
+        "description": "Test event distribution offer 06",
+        "soc": "000006",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST007",
+        "description": "Test event distribution offer 07",
+        "soc": "000007",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST008",
+        "description": "Test event distribution offer 08",
+        "soc": "000008",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }, {
+        "name": "TEST009",
+        "description": "Test event distribution offer 09",
+        "soc": "000009",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "ADDITIONAL",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }];
+    var eventDistributionOfferLists = $scope.eventDistributionOfferLists;
 });

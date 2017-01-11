@@ -642,9 +642,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr dir-paginate="item in addOfferLists| itemsPerPage: pageSize" pagination-id="offerList" current-page="currentPage" style="cursor:pointer;">
-                                    <!-- <label class="col-xs-12"> -->
-                                    <!-- <div class="row"> -->
+                                <tr dir-paginate="item in addOfferLists | itemsPerPage: pageSize" pagination-id="offerList" current-page="currentPage" style="cursor:pointer;">
                                     <td class="contentTbCenter" ng-click="radioRowClick(tableAddOffer,item)">
                                         <input id="{{item['name']}}" type="radio" name="radioOffer" ng-model="radioOffer" ng-click="radioRowClick(tableAddOffer,item)" value="{{item['name']}}" style="cursor:pointer;">
                                     </td>
@@ -982,7 +980,7 @@
                             </div>
                         </div>&nbsp;
                         <div class="table-responsive" ng-show="checkChargeDistribution">
-                            <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableAddOffer" ng-model="tableChargeDistribution">
+                            <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableChargeDistributionOffer" ng-model="tableChargeDistribution">
                                 <thead>
                                     <tr class="well">
                                         <th class="contentTbHeader">
@@ -1041,16 +1039,19 @@
                         <div ng-show="checkEventDistribution">
                             <div class="row">
                                 <div class="btn-group" style="bottom:10px;left: 6px;">
-                                    <button href="" data-toggle="" id="selectOfferBtn" onclick="$('#hModal').height(($(window).height()) - 235);return false;" class="btn btn-success" type="button" ng-click="" style="width:90px;">
+                                    <button href="#modal-event-distribution" data-toggle="modal" id="selectOfferBtn" onclick="$('#hModal').height(($(window).height()) - 235);return false;" class="btn btn-success" type="button" ng-click="onSearchEventDistributionOffer();" style="width:90px;">
                                         <i class=""></i>
                                         <div>Select Offer</div>
                                     </button>
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableAddOffer" ng-model="tableChargeDistribution">
+                                <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableChargeDistributionOffer" ng-model="tableChargeDistribution">
                                     <thead>
                                         <tr class="well">
+                                            <th class="contentTbHeader">
+                                                ลบ
+                                            </th>
                                             <th class="contentTbHeader">
                                                 Offer Code
                                             </th>
@@ -1069,27 +1070,30 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr dir-paginate="item in eventDistributionLists| itemsPerPage: eventDistributionPageSize" pagination-id="eventDistributionLists" current-page="eventDistributionCurrentPage" style="cursor:pointer;">
-                                            <!-- <label class="col-xs-12"> -->
-                                            <!-- <div class="row"> -->
-                                            <td class="contentTbCenter" ng-click="">
-                                                {{item['offer-code']}}
+                                        <tr dir-paginate="item in eventDistributionLists | itemsPerPage:eventDistributionPageSize" pagination-id="eventDistribution" current-page="eventDistributionCurrentPage" style="cursor:pointer;" ng-hide="eventDistributionLists.length == 0">
+                                            <td class="contentTbCenter">
+                                                <a style="cursor:pointer; color:red;" type="button" ng-click="deleteEventOffer(item)"><span><i class="fa fa-trash-o fa-1x"></i></span></a>
                                             </td>
-                                            <td class="contentTbCenter" ng-click="">
-                                                {{item['offer-name']}}
+                                            <td class="contentTb">
+                                                {{item['soc']}}
                                             </td>
-                                            <td class="contentTb" ng-click="">
-                                                {{item['split-code']}}
+                                            <td class="contentTb">
+                                                {{item['name']}}
                                             </td>
-                                            <td class="contentTbCenter" ng-click="">
+                                            <td class="contentTbCenter">
+                                                {{item['service-level']}}
+                                            </td>
+                                            <td class="contentTbCenter">
+                                            </td>
+                                            <td class="contentTbCenter">
                                             </td>
                                         </tr>
                                         <tr ng-show="eventDistributionLists.length>=eventDistributionPageSize">
                                             <td colspan="5" class="text-center">
-                                                <div dir-pagination-controls pagination-id="eventDistributionLists" boundary-links="true" template-url="lib/paging/dirPagination.tpl.html?v={{runTime}}"></div>
+                                                <div dir-pagination-controls pagination-id="eventDistribution" boundary-links="true" template-url="lib/paging/dirPagination.tpl.html?v={{runTime}}"></div>
                                             </td>
                                         </tr>
-                                        <tr ng-show="!eventDistributionLists">
+                                        <tr ng-show="eventDistributionLists.length == 0">
                                             <td colspan="5" style="text-align: center;">
                                                 <span>No data selected</span>
                                             </td>
@@ -1114,14 +1118,14 @@
                         </div>
                         <div class="row">
                             <div class="btn-group" style="bottom:10px;left: 6px;">
-                                <button href="" data-toggle="" id="selectPayChannelBtn" onclick="$('#hModal').height(($(window).height()) - 235);return false;" class="btn btn-success" type="button" ng-click="">
+                                <button href="#modal-pay-channel" data-toggle="modal" id="selectPayChannelBtn" onclick="$('#hModal').height(($(window).height()) - 235);return false;" class="btn btn-success" type="button" ng-click="onSearchPayChannel();">
                                     <i class=""></i>
                                     <div>Select Pay Channel</div>
                                 </button>
                             </div>
                         </div>
                         <div class="table-responsive" ng-show="true">
-                            <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableAddOffer" ng-model="tableChargeDistribution">
+                            <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableChargeDistributionOffer" ng-model="tableChargeDistribution">
                                 <thead>
                                     <tr class="well">
                                         <th class="contentTbHeader">
@@ -1136,25 +1140,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr dir-paginate="item in secondPayChannelLists| itemsPerPage: secondPayChannelPageSize" pagination-id="secondPayChannelLists" current-page="secondPayChannelCurrentPage" style="cursor:pointer;">
-                                        <!-- <label class="col-xs-12"> -->
-                                        <!-- <div class="row"> -->
+                                    <tr ng-hide="selectedPayChannel.length == 0">
                                         <td class="contentTbCenter" ng-click="">
-                                            {{item['offer-code']}}
+                                            {{selectedPayChannel['customer-name']}}
                                         </td>
                                         <td class="contentTbCenter" ng-click="">
-                                            {{item['offer-name']}}
+                                            {{selectedPayChannel['account-id']}}
                                         </td>
                                         <td class="contentTbCenter" ng-click="">
-                                            {{item['split-code']}}
+                                            {{selectedPayChannel['account-name']}}
                                         </td>
                                     </tr>
-                                    <tr ng-show="secondPayChannelLists.length>=secondPayChannelPageSize">
-                                        <td colspan="5" class="text-center">
-                                            <div dir-pagination-controls pagination-id="secondPayChannelLists" boundary-links="true" template-url="lib/paging/dirPagination.tpl.html?v={{runTime}}"></div>
-                                        </td>
-                                    </tr>
-                                    <tr ng-show="!secondPayChannelLists">
+                                    <tr ng-show="selectedPayChannel.length == 0">
                                         <td colspan="5" style="text-align: center;">
                                             <span>No data selected</span>
                                         </td>
@@ -2759,8 +2756,8 @@
                             <div class="row">
                                 <div class="col-xs-1">&nbsp;</div>
                                 <div class="col-xs-11"> -->
-                                    <!-- <span><b> Split Code</b></span> -->
-                                <!-- </div>
+                        <!-- <span><b> Split Code</b></span> -->
+                        <!-- </div>
                             </div>
                         </label> -->
                         <table class="table" style="width: 98%; margin-bottom: 0px;">
@@ -2799,3 +2796,169 @@
     </div>
 </div>
 <!-- End modal-edit-future-offer -->
+<!-- Start modal-Pay-Channel -->
+<div id="modal-pay-channel" tabindex="-1" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal_pdf_width modal-lg">
+        <div class="modal-content">
+            &nbsp;&nbsp;
+            <div class="modalOffer-header">
+                <span class="fa fa-info-circle pull-left fa-lg-plus" style="color: #00a651;"></span>
+                <div style="font-size: 1.5em;">Pay Channel</div>
+            </div>
+            <div class="modal-body">
+                <div class="hModal" style="overflow:auto;overflow-x:hidden;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <input type="text" placeholder="ค้นหา Pay Channel" ng-model="searchPayChannel" class="form-control" ng-keyup="smartSearchPayChannel(searchPayChannel);">
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    &nbsp;
+                    <div class="table-responsive">
+                        <label class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-1">&nbsp;</div>
+                                <div class="col-xs-4">
+                                    <span><b> Customer Name</b></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <span><b> Account ID</b></span>
+                                </div>
+                                <div class="col-xs-4">
+                                    <span><b> Account Name</b></span>
+                                </div>
+                            </div>
+                        </label>
+                        <table class="table" style="width: 98%; margin-bottom: 0px;">
+                            <tr class="row" dir-paginate="item in payChannelLists | itemsPerPage: pageSize_PayChannel" current-page="currentPage_PayChannel" pagination-id="payChannelList">
+                                <th style="padding: 5px; padding-bottom: 0px;">
+                                    <label class="col-xs-12" style="cursor:pointer;" ng-click="setPayChannelValue(item);">
+                                        <div class="row">
+                                            <div class="col-xs-1">
+                                                <input class="radioPayChannel" name="payChannelRadio" type="radio" value="{{item}}" ng-model="pickPayChannel">
+                                            </div>
+                                            <div class="col-xs-4">{{item['customer-name']}}</div>
+                                            <div class="col-xs-3">{{item['account-id']}}</div>
+                                            <div class="col-xs-4">{{item['account-name']}}</div>
+                                        </div>
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-center" style="margin-bottom: 0px;">
+                                    <style>
+                                    .pagination {
+                                        margin: 0;
+                                    }
+                                    </style>
+                                    <div dir-pagination-controls pagination-id="payChannelList" boundary-links=" true" template-url="lib/paging/dirPagination.tpl.html?v=3456785999000"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modalOffer-footer" style=" padding-top: 0;">
+                <br>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="confirmPayChennel();" style="margin-top: -0px;" ng-disabled="false">ตกลง</button>
+                <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-click="" style="margin-top: -0px;">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal-edit-future-offer -->
+<!-- Start modal-Event-Distribution -->
+<div id="modal-event-distribution" tabindex="-1" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal_pdf_width modal-lg">
+        <div class="modal-content">
+            &nbsp;&nbsp;
+            <div class="modalOffer-header">
+                <span class="fa fa-info-circle pull-left fa-lg-plus" style="color: #00a651;"></span>
+                <div style="font-size: 1.5em;">Select Offer</div>
+            </div>
+            <div class="modal-body">
+                <div class="hModal" style="overflow:auto;overflow-x:hidden;">
+                    <br>
+                    <div class="form-group">
+                        <div class="row" style="margin-top: -9px;">
+                            <div class="col-md-4 text-right content-body" style="margin-top: 9px;">
+                                <b> ค้นหา Offer Name/Offer Code</b>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" placeholder="ค้นหา" ng-model="txtSearchEventOffer" class="form-control" ng-keyup="smartSearchEventOffer(txtSearchEventOffer)">
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-condensed" style="margin-bottom: 0px;" id="tableEventDistributionOffer" ng-model="tableAddOffer">
+                            <thead>
+                                <tr class="well">
+                                    <th class="contentTbHeader">
+                                        เลือก
+                                    </th>
+                                    <th class="contentTbHeader">
+                                        Offer Code
+                                    </th>
+                                    <th class="contentTbHeader">
+                                        Offer Name
+                                    </th>
+                                    <th class="contentTbHeader">
+                                        Level
+                                    </th>
+                                    <th class="contentTbHeader">
+                                        Eff.Date
+                                    </th>
+                                    <th class="contentTbHeader">
+                                        Param
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="item in eventDistributionOfferLists| itemsPerPage: pageSize" pagination-id="eventDistributionOfferList" current-page="currentPage_EventDistributionOffer" style="cursor:pointer;">
+                                    <!-- <label class="col-xs-12"> -->
+                                    <!-- <div class="row"> -->
+                                    <td class="contentTbCenter radioEventDistribution" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        <input id="{{item['soc']}}" type="radio" name="radioEventDistributionOffer" ng-model="pickEventDistributionOffer" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)" value="{{item}}" style="cursor:pointer;">
+                                    </td>
+                                    <td class="contentTbCenter" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        {{item['soc']}}
+                                    </td>
+                                    <td class="contentTb" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        {{item['name']}}
+                                    </td>
+                                    <td class="contentTbCenter" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        {{item['service-level']}}
+                                    </td>
+                                    <td class="contentTbCenter" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        -
+                                    </td>
+                                    <td class="contentTbCenter" ng-click="rowClickDistributionOffer('tableEventDistributionOffer',item)">
+                                        -
+                                    </td>
+                                </tr>
+                                <tr ng-show="eventDistributionOfferLists.length>=pageSize">
+                                    <td colspan="6" class="text-center">
+                                        <div dir-pagination-controls pagination-id="eventDistributionOfferList" boundary-links="true" template-url="lib/paging/dirPagination.tpl.html?v={{runTime}}"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div ng-show="(addOfferType.value != 'POOLING' && addOfferLists.length == 0) || (addOfferType.value == 'POOLING'&& pooledList.length > 0 && addOfferLists.length == 0)" class="text-center">
+                        <h4 style="color:red">*ไม่พบ Offer</h4>
+                    </div> -->
+                </div>
+            </div>
+            <div class="modalOffer-footer" style=" padding-top: 0;">
+                <br>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="confirmSelectOffer();" style="margin-top: -0px;" ng-disabled="false">ตกลง</button>
+                <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-click="" style="margin-top: -0px;">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal-Event-Distribution -->
