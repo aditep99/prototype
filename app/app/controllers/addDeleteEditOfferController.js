@@ -2206,6 +2206,11 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
     }
     $scope.tableAddOffer = 'tableAddOffer';
     $scope.radioRowClick = function(tableID, item) {
+        $scope.checkChargeDistribution = false;
+        $scope.checkEventDistribution = false;
+        $scope.eventDistributionLists = [];
+        $scope.selectedPayChannel = [];
+        $scope.chargeDistributionLists['split-code'] = '';
         $scope.cugParam['group-id'] = "";
         $scope.currentPage_cug = 1;
         $scope.disableSubmitAddOffer = true;
@@ -2223,11 +2228,14 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
             $('#idBindDataAgain').click();
         }, 50);
     }
+    $scope.pickEventDistributionOffer = {};
     $scope.rowClickDistributionOffer = function (tableID, item) {
+        $scope.pickEventDistributionOffer = {};
         $('#' + tableID + ' tr').click(function() {
             $(this).find('td input:radio').prop('checked', true);
         })
-        $scope.pickEventDistributionOffer = item;
+        $scope.pickEventDistributionOffer = angular.copy(item);
+        console.log($scope.pickEventDistributionOffer);
     }
     $scope.checkboxRowClick = function(tableID) {
         $('#' + tableID + ' tr').click(function() {
@@ -4304,6 +4312,7 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
     };
     $scope.eventDistributionLists = [];
     $scope.confirmSelectOffer = function() {
+        $scope.pickEventDistributionOffer.guID = '';
         $scope.pickEventDistributionOffer.guID = SystemService.guid();
         $scope.eventDistributionLists.push($scope.pickEventDistributionOffer);
         console.log($scope.eventDistributionLists);

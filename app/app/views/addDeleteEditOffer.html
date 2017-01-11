@@ -1070,7 +1070,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr dir-paginate="item in eventDistributionLists | itemsPerPage:eventDistributionPageSize" pagination-id="eventDistribution" current-page="eventDistributionCurrentPage" style="cursor:pointer;" ng-hide="eventDistributionLists.length == 0">
+                                        <tr ng-repeat="item in eventDistributionLists track by $index" style="cursor:pointer;" ng-hide="eventDistributionLists.length == 0">
                                             <td class="contentTbCenter">
                                                 <a style="cursor:pointer; color:red;" type="button" ng-click="deleteEventOffer(item)"><span><i class="fa fa-trash-o fa-1x"></i></span></a>
                                             </td>
@@ -1086,11 +1086,6 @@
                                             <td class="contentTbCenter">
                                             </td>
                                             <td class="contentTbCenter">
-                                            </td>
-                                        </tr>
-                                        <tr ng-show="eventDistributionLists.length>=eventDistributionPageSize">
-                                            <td colspan="5" class="text-center">
-                                                <div dir-pagination-controls pagination-id="eventDistribution" boundary-links="true" template-url="lib/paging/dirPagination.tpl.html?v={{runTime}}"></div>
                                             </td>
                                         </tr>
                                         <tr ng-show="eventDistributionLists.length == 0">
