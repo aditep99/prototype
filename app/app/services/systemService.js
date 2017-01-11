@@ -26,20 +26,6 @@
     };
     //// show sr no :: by p'nin, p'mam :: 23-11-2016 :: xsam32
 
-    this.getFileJson = function(requestUrl, fnCallback) {
-
-        var webContextPath = getContextPath();
-        if (that.demoPath) {
-            webContextPath = "";
-        }
-        $http.get(webContextPath + requestUrl).success(function(response) {
-            fnCallback(response);
-        }).error(function(err) {
-            alert('Connot get file.');
-            console.log(err);
-        });
-    };
-
     this.limitAddressList = 20;
     localStorage.setItem('pdfShopCode', "");
     //for get by env
@@ -3546,7 +3532,12 @@
     };
 
     this.getFileJson = function(requestUrl, fnCallback) {
-        $http.get(requestUrl).success(function(response) {
+
+        var webContextPath = getContextPath();
+        if (that.demoPath) {
+            webContextPath = "";
+        }
+        $http.get(webContextPath + requestUrl).success(function(response) {
             fnCallback(response);
         }).error(function(err) {
             alert('Connot get file.');

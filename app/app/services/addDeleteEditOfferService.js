@@ -96,7 +96,7 @@
                 cb(result);
             });
         } else {
-            var url = "/app/jsonFiles/offer/validate-change-offer.json";
+            var url = "/app/jsonFiles/Offer/validate-change-offer.json";
             SystemService.getFileJson(url, function(response) {
                 // console.log(response);
 
