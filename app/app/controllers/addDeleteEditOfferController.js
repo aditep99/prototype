@@ -2206,11 +2206,6 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
     }
     $scope.tableAddOffer = 'tableAddOffer';
     $scope.radioRowClick = function(tableID, item) {
-        $scope.checkChargeDistribution = false;
-        $scope.checkEventDistribution = false;
-        $scope.eventDistributionLists = [];
-        $scope.selectedPayChannel = [];
-        $scope.chargeDistributionLists['split-code'] = '';
         $scope.cugParam['group-id'] = "";
         $scope.currentPage_cug = 1;
         $scope.disableSubmitAddOffer = true;
@@ -2229,7 +2224,7 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
         }, 50);
     }
     $scope.pickEventDistributionOffer = {};
-    $scope.rowClickDistributionOffer = function (tableID, item) {
+    $scope.rowClickDistributionOffer = function(tableID, item) {
         $scope.pickEventDistributionOffer = {};
         $('#' + tableID + ' tr').click(function() {
             $(this).find('td input:radio').prop('checked', true);
@@ -2578,7 +2573,7 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
             // console.log(result);
             SystemService.hideLoading();
             if (result.data['response-data']) {
-                SystemService.hideLoading();
+                // SystemService.hideLoading();
                 $scope.addOfferLists = result.data['response-data'];
                 console.log($scope.addOfferLists);
                 for (var i = 0; i < $scope.addOfferLists.length; i++) {
@@ -2617,9 +2612,14 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
                     // $scope.getCUGLists();
                 }
 
+                if ($scope.addOfferType.value == 'SPLITCHARGE') {
+                    $scope.onChangeRadioOffer($scope.addOfferLists[0]);
+                }
+                // SystemService.hideLoading();
             } else {
                 $scope.addOfferLists = [];
                 addOfferLists = [];
+                // SystemService.hideLoading();
             }
         });
     }
@@ -4648,4 +4648,42 @@ smartApp.controller('AddDeleteEditOfferController', function($scope,
         ]
     }];
     var eventDistributionOfferLists = $scope.eventDistributionOfferLists;
+    $scope.secondPayBanData = {};
+    $scope.isValidateBan = false;
+    $scope.clearSplitChargeData = function() {
+        $scope.isValidateBan = false;
+        $scope.checkChargeDistribution = false;
+        $scope.checkEventDistribution = false;
+        $scope.eventDistributionLists = [];
+        $scope.selectedPayChannel = [];
+        $scope.chargeDistributionLists['split-code'] = '';
+        $scope.secondPayBan = '';
+    };
+    $scope.clearBanData = function() {
+        $scope.secondPayBanData = {};
+        $scope.isValidateBan = false;
+    };
+    $scope.validateBan = function() {
+        SystemService.showLoading();
+        $scope.secondPayBanData = {};
+        if ($scope.secondPayBan == '999999999') {
+            SystemService.hideLoading();
+            $scope.isValidateBan = true;
+            $scope.secondPayBanData = {
+                'account-name': 'แผนกบัญชี',
+                'customer-name': 'บริษัท ดาวเอเอ จำกัด (มหาชน)'
+            };
+        } else {
+            SystemService.hideLoading();
+            $scope.secondPayBanData = {};
+            SystemService.showAlert({
+                "message": "",
+                "message-code": "",
+                "message-type": "WARNING",
+                "en-message": "Account ID (BAN) is incorrect.",
+                "th-message": "ไม่พบ Account ID (BAN) ที่ระบุ",
+                "technical-message": "From WebUI"
+            });
+        }
+    };
 });
