@@ -1,0 +1,33 @@
+{
+    "status": "SUCCESSFUL",
+    "trx-id": "4C94C9Z4G0YLH",
+    "process-instance": "tmsapnpr1 (instance: SFF_node3)",
+    "response-data": [{
+        "name": "SPLITS01",
+        "description": "Split Charge Offer",
+        "soc": "493178",
+        "properties": {
+            "OFFER_TYPE": "N"
+        },
+        "group": "SPLITCHARGE",
+        "soc-type": "U",
+        "sale-period": {
+            "start": "2014-01-01",
+            "end": "2250-08-08"
+        },
+        "rc": 0,
+        "max-instance-allow": 0,
+        "service-level": "C",
+        "parameter-specifications": [{
+            "name": "Split code",
+            "required": true,
+            "min": 1,
+            "max": 1,
+            "data-type": "TEXT",
+            "default-value": " "
+        }],
+        "available-groups": [
+            "ADDITIONAL"
+        ]
+    }]
+}

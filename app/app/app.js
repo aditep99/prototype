@@ -103,6 +103,9 @@ smartApp.config(function($routeProvider, $httpProvider) {
     }).when('/deleteFuturePricePlan', {
         templateUrl: 'app/views/deleteFuturePricePlan.html?v=' + runTime,
         controller: 'DeleteFuturePricePlanController'
+    }).when('/addDeleteEditOffer', {
+        templateUrl: 'app/views/addDeleteEditOffer.html?v=' + runTime,
+        controller: 'AddDeleteEditOfferController'
     });
 
 });

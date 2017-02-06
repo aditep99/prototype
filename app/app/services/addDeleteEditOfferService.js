@@ -76,7 +76,7 @@
         return response;
     };
 
-    this.getSIMData = function(msisdn, callback) {
+    this.getSIMData = function(msisdn, level, callback) {
         var that = this;
 
         if (utils.isEmpty(msisdn)) {
@@ -90,198 +90,157 @@
         };
 
         if (!demo) {
-            var target = '/aftersales/tmv/cancel/validatecancel?msisdn=' + msisdn;
+            var target = '/aftersales/tmv/offer/validate-change-offer?level=' + level + '&key-value=' + msisdn;
 
             SystemService.callServiceGet(target, null, function(result) {
                 cb(result);
             });
         } else {
-            var data = {
-                'status': 'SUCCESSFUL',
-                "trx-id": "3BDPN2HLK4TZ",
-                'process-instance': 'psaapdv1 (instance: SFF_node1)',
-                'status-code': '0',
-                "response-data": {
-                    "customer": {
-                        "title": "",
-                        "title-code": "T3",
-                        "firstname": "พฤกษวดี",
-                        "lastname": "พฤกษวดีนงลักษณ์",
-                        "birthdate": "2531-09-01T00:00:00+0700",
-                        "contact-number": "",
-                        "id-type": "P",
-                        "id-number": "012369857789",
-                        "customer-id": "325",
-                        "installed-products": [{
-                            "ouId": "5010",
-                            "ban": "20009628",
-                            "product-id": "EDATAP69",
-                            "product-name": "EDATAP69",
-                            "product-description": "Biz &amp; Ent 900,Data UNL5GB/128,WiFi",
-                            "product-soc-code": "1234567",
-                            "account-category": "C",
-                            "account-sub-type": "FIN",
-                            "company-code": "RF",
-                            "product-category": "TMV",
-                            "product-status": "ACTIVE",
-                            "product-id-name": "MSISDN",
-                            "product-id-number": "0XXXXXXXXX",
-                            "mobile-servicetype": "POSTPAID",
-                            "ou-hierarchytype": "CHILD",
-                            "parent-ouId": "1234",
-                            "has-splitcharge": false,
-                            "is-childsim": false,
-                            "is-softsuspend": false,
-                            "product-properties": {
-                                "PRODUCT-STATUS-DATE": '20/10/2016',
-                                "REASON-CODE": null,
-                                "REASON-DESC": 'test',
-                                "SUBSCRIBER-ID": null,
-                                "PRODUCT-STATUS-CODE": null, // CANCEL-ACTIVE, CANCEL-SOFT-SUSPEND, CANCEL-FULL-SUSPEND
-                                "PRODUCT-STATUS-DESC": 'Active' // Active, Soft Suspend by Request, Full Suspend by Request
-                            }
-                        }]
-                    },
-                    "display-messages": [{
-                        "message": "",
-                        "message-type": "ERROR",
-                        "en-message": "VIP",
-                        "th-message": "",
-                        "technical-message": ""
-                    }, {
-                        "message": "",
-                        "message-type": "ERROR",
-                        "en-message": "DISCOUNT",
-                        "th-message": "",
-                        "technical-message": ""
-                    }, {
-                        "message": "",
-                        "message-type": "ERROR",
-                        "en-message": "SUBSCRIBER STATUS",
-                        "th-message": "",
-                        "technical-message": ""
-                    }, {
-                        "message": "",
-                        "message-type": "ERROR",
-                        "en-message": "NICE NUMBER",
-                        "th-message": "",
-                        "technical-message": ""
-                    }, {
-                        "message": "",
-                        "message-type": "WARNING",
-                        "en-message": "IR",
-                        "th-message": "",
-                        "technical-message": ""
-                    }, {
-                        "message": "",
-                        "message-type": "WARNING",
-                        "en-message": "CONVERGENT",
-                        "th-message": "",
-                        "technical-message": ""
-                    }]
+            var url = "/app/jsonFiles/Offer/validate-change-offer.json";
+            SystemService.getFileJson(url, function(response) {
+                // console.log(response);
 
-                },
-                // 'display-messages': [{
-                //  'message': '',
-                //  'message-type': 'ERROR',
-                //  'en-message': 'VIP',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }, {
-                //  'message': '',
-                //  'message-type': 'WARNING',
-                //  'en-message': 'DISCOUNT',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }, {
-                //  'message': '',
-                //  'message-type': 'ERROR',
-                //  'en-message': 'SUBSCRIBER STATUS',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }, {
-                //  'message': '',
-                //  'message-type': 'ERROR',
-                //  'en-message': 'NICE NUMBER',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }, {
-                //  'message': '',
-                //  'message-type': 'ERROR',
-                //  'en-message': 'SHARED PLAN',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }, {
-                //  'message': '',
-                //  'message-type': 'WARNING',
-                //  'en-message': 'CONVERGENT',
-                //  'th-message': '',
-                //  'technical-message': ''
-                // }]
-            };
-            var data2 = {
-                "status": "SUCCESSFUL",
-                "display-messages": [],
-                "trx-id": "4BHTUFAMBA7P",
-                "process-instance": "tmsapnpr1 (instance: SFF_node4)",
-                "response-data": {
-                    "customer": {
-                        "title": "นาย",
-                        "title-code": "T1",
-                        "firstname": "พัฒนา",
-                        "lastname": "พิสุทธิอาภรณ์",
-                        "contact-number": "",
-                        "contact-mobile-number": "",
-                        "id-type": "",
-                        "id-number": "1189900130607",
-                        "customer-id": "2589",
-                        "installed-products": [{
-                            "ouId": "912",
-                            "ban": "10000540",
-                            "product-category": "TMV",
-                            "product-type": "PRICEPLAN",
-                            "product-sub-type": "R",
-                            "product-status": "A",
-                            "account-category": "I",
-                            "account-sub-type": "RPI",
-                            "product-id": "SMRTPP87",
-                            "product-name": "SMRTPP87",
-                            "product-description": "iSmart 299, voice100mins net500MB UNLTD WiFi UNLTD",
-                            "bill-cycle": "10",
-                            "company-code": "RM",
-                            "service-level": "C",
-                            "subscriber-id": "3164",
-                            "product-properties": {
-                                "REASON-DESC": "Add Additional SOC for Migrate Customer from Ensemble to CCBS for Activate Subscriber by RD",
-                                "PRODUCT-STATUS-DESC": "Active",
-                                "PRODUCT-STATUS-DATE": "28/08/2015",
-                                "REASON-CODE": "RD03",
-                                "PRODUCT-STATUS-CODE": "CANCEL-ACTIVE"
-                            },
-                            "product-id-name": "MSISDN",
-                            "product-id-number": "0957730534",
-                            "mobile-servicetype": "HYBRID",
-                            "has-splitcharge": false,
-                            "is-childsim": false,
-                            "is-softsuspend": false,
-                            "sub-status": "Active"
-                        }]
-                    }
-                }
-            };
-
-            $timeout(function() {
-                cb({
-                    status: true,
-                    data: data2,
-                    error: '',
-                    msgErr: ''
-                });
-            }, 1000);
+                $timeout(function() {
+                    cb({
+                        status: true,
+                        data: response,
+                        error: '',
+                        msgErr: ''
+                    });
+                }, 1000);
+            });
         }
     };
 
-    this.submitAddDeleteEditOffer = function(payload, fnCallback) {
+    this.getExistingOffer = function(level, keyvalue, keyid, fnCallback) {
+
+        if (!demo) {
+
+            var target = '/aftersales/tmv/offer/get-existing-offer?' + 'level=' + level + '&key-value=' + keyvalue + '&key-id=' + keyid;
+            SystemService.callServiceGet(target, null, function(result) {
+                fnCallback(result);
+            });
+
+        } else {
+
+            var url = "/app/jsonFiles/Offer/get-existing-offer-tDiscount.json";
+            SystemService.getFileJson(url, function(response) {
+                // console.log(response);
+
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        }
+
+    };
+
+    this.getUserGroup = function(roles, fnCallback) {
+        if (!demo) {
+            var target = "aftersales/order/activity-rule/validate?activity=GET_USER_GROUP";
+            var request = {
+                "target": target,
+                "ROLES": roles
+            };
+            SystemService.callServicePost(request, null, function(response) {
+                fnCallback(response);
+            });
+        } else {
+            var url = "/app/jsonFiles/GET_USER_GROUP_CM.json";
+            SystemService.getFileJson(url, function(response) {
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        }
+    };
+
+    this.searchOffer = function(param, type, fnCallback) {
+        if (!demo) {
+            if (type == "RELATED") {
+                var target = '/sales/catalog/product/tmv/offer/related/search?' + param;
+            } else {
+                var target = '/sales/catalog/product/tmv/offer/search?' + param;
+            }
+
+            SystemService.callServiceGet(target, null, function(result) {
+                fnCallback(result);
+            });
+        } else {
+            if (type == 'ALL') {
+                var url = "/app/jsonFiles/Offer/search-offer-additional.json"
+            } else if (type == 'CUG') {
+                var url = "/app/jsonFiles/Offer/search-offer-cug.json"
+            } else if (type == 'CONTRACT_PROPO') {
+                var url = "/app/jsonFiles/Offer/search-offer-contract_propo.json"
+            } else if (type == 'SHARE_ALLOWANCE') {
+                var url = "/app/jsonFiles/Offer/search-offer-share_allowance.json"
+            } else if (type == 'FF') {
+                var url = "/app/jsonFiles/Offer/search-offer-ff.json"
+            } else if (type == 'DISCOUNT') {
+                var url = "/app/jsonFiles/Offer/search-offer-discount.json"
+            } else if (type == 'IR') {
+                var url = "/app/jsonFiles/Offer/search-offer-ir.json"
+            } else if (type == 'IDD') {
+                var url = "/app/jsonFiles/Offer/search-offer-idd.json"
+            } else if (type == 'ADDITIONAL') {
+                var url = "/app/jsonFiles/Offer/search-offer-additional.json"
+            } else if (type == 'POOLING') {
+                var url = "/app/jsonFiles/Offer/search-offer-pooling.json"
+            } else if (type == '') {
+                var url = "/app/jsonFiles/Offer/search-offer-all.json"
+            } else if (type == 'BARRING') {
+                var url = "/app/jsonFiles/Offer/search-offer-barring.json"
+            } else if (type == 'RELATED') {
+                var url = "/app/jsonFiles/Offer/search-related-offer-priceplan2.json"
+                    // var url = "/app/jsonFiles/Offer/search-offer-notfound.json"
+            } else if (type == 'SPLITCHARGE') {
+                var url = "/app/jsonFiles/Offer/search-offer-splitcharge.json"
+            } else {
+                var url = "/app/jsonFiles/Offer/search-offer-notfound.json"
+            }
+
+            SystemService.getFileJson(url, function(response) {
+                // console.log(response);
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        }
+    };
+
+    this.searchOfferByName = function(offerName, fnCallback) {
+        if (!demo) {
+            var target = '/sales/catalog/product/tmv/offer/' + offerName;
+
+            SystemService.callServiceGet(target, null, function(result) {
+                fnCallback(result);
+            });
+        } else { 
+            var url = "/app/jsonFiles/Offer/search-offer-" + offerName + ".json"
+
+            SystemService.getFileJson(url, function(response) {
+                // console.log(response);
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        }
+    };
+
+    this.submitAddDeleteEditOffer = function(payload, orderItem, fnCallback) {
 
         var request = {
             "target": "aftersales/order/submit",
@@ -332,52 +291,24 @@
                     'sale-code': payload.saleAgent['saleCode'],
                     'partner-type': payload.saleAgent['partnerType']
                 },
-                'order-items': [{
-                    'name': 'AddDeleteEditOffer',
-                    'product-name': payload.productDetails['product-id'],
-                    'product-id-number': payload.productDetails['product-id-number'],
-                    'product-id-name': payload.productDetails['product-id-name'],
-                    // 'product-category': payload.productDetails['product-category'],
-                    'reason-code': payload.statusReason,
-                    'user-memo': payload.saleAgent.ssoEmployeePrincipal.loginName + "(" + payload.saleAgent.ssoEmployeePrincipal.employeeId + ": " + payload.saleAgent.ssoEmployeePrincipal.englishName + ")" + "(" + "Order ID: " + payload.orderData.orderId + ")" + ": "  + payload.statusReasonMemo,
-                    'order-data': {
-                        'MOBILE-SERVICETYPE': payload.productDetails['mobile-servicetype'],
-                        'SERVICE-LEVEL': "C",
-                        'SUBSCRIBER-ID': payload.customerProfile['subscriber-id'],
-                        "CHANGE-OPTION": payload.statusCancel,
-                        "PRODUCT-STATUS-DESC": payload.productDetails['product-properties']['PRODUCT-STATUS-DESC'] 
-
-                        // 'OU-ID': payload.productDetails['ouId'],
-                        // 'BAN': payload.productDetails['ban'],
-                        // 'PREPAID-SUBSCRIBER-ID': payload.productDetails['prepaid-subscriber-id'],
-                        // 'IMSI': payload.productDetails['product-id-number']
-                    },
-                    'primary-order-data': {
-                        'OU-ID': payload.productDetails['ouId'],
-                        'BAN': payload.productDetails['ban'],
-                        'ACCOUNT-CATEGORY': payload.productDetails['account-category'],
-                        'ACCOUNT-SUB-TYPE': payload.productDetails['account-sub-type'],
-                        'COMPANY-CODE': payload.productDetails['company-code'],
-                        'PRODUCT-CODE': payload.productDetails['productCodes'],
-                        // 'SIM': payload.productDetails['simSerial'],
-                        "EFFECTIVE-OPTION": "IMMEDIATE",
-                        "EFFECTIVE-DATE": moment().format('YYYY-MM-DDTHH:mm:ss+0700')
-
-                    },
-                    'product-category': payload.productDetails['product-category'],
-                    'product-type': "PRICEPLAN",
-                    'order-type': "CHANGE"
-
-                }],
+                'order-items': orderItem,
                 'last-modify-date': ''
             },
             'ref-id': payload.orderData.orderId,
             'user-id': payload.saleAgent.logInName,
             'approver': payload.approver
         };
+
+        if (payload.POA) {
+            request.order.customer['customer-agents'] = {
+                'POA': payload.POA
+            };
+        }
         console.log(request);
         var cb = function(result) {
-            fnCallback(result);      
+            var displayMsg = utils.getObject(result.data, 'display-messages.0');
+            console.log(displayMsg);
+            fnCallback(result);
         };
 
         if (!demo) {
@@ -385,10 +316,10 @@
 
             SystemService.callServicePost(request, null, function(result) {
                 //save report to server
-                SystemService.saveReportToServer({}, function(result){
-                    
+                SystemService.saveReportToServer({}, function(result) {
+
                 });
-                
+
                 cb(result);
             });
         } else {
@@ -444,6 +375,96 @@
             var target = 'aftersales/tmv/offer/listcapmaxparameter?offer-code=' + offerCode;
             SystemService.callServiceGet(target, null, function(result) {
                 fnCallback(result);
+            });
+        }
+    };
+
+    this.getExistingParameter = function(param, fnCallback) {
+        var data = {};
+        if (demo) {
+            var url = "/app/jsonFiles/Offer/get-existing-parameter2.json";
+            SystemService.getFileJson(url, function(result) {
+                // console.log(response);
+
+                fnCallback({
+                    status: true,
+                    data: result,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        } else {
+            var target = 'aftersales/tmv/offer/get-existing-parameter?' + param;
+            SystemService.callServiceGet(target, null, function(result) {
+                fnCallback(result);
+            });
+        }
+    };
+
+    this.getFutureOffer = function(param, fnCallback) {
+        var data = {};
+        if (demo) {
+            var url = "/app/jsonFiles/Offer/get-future-offer.json";
+            SystemService.getFileJson(url, function(result) {
+                // console.log(response);
+
+                fnCallback({
+                    status: true,
+                    data: result,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        } else {
+            var target = 'aftersales/tmv/offer/get-future-order?' + param;
+            SystemService.callServiceGet(target, null, function(result) {
+                fnCallback(result);
+            });
+        }
+    };
+
+    this.validateOffer = function(name, currentOffer, cusType, fnCallback) {
+        if (!demo) {
+            var target = "/sales/catalog/product/tmv/offer/validate?" + "new-offer=" + name + "&current-offers=" + currentOffer + "&customer-type=" + cusType;
+            var request = {
+                "target": target
+            };
+            SystemService.callServicePostByPass(request, null, function(result) {
+                fnCallback(result);
+            });
+        } else {
+            var url = "/app/jsonFiles/Offer/validate-offer-success.json";
+            // var url = "/app/jsonFiles/Offer/validate-offer-discount-normal.json";
+            SystemService.getFileJson(url, function(response) {
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
+            });
+        }
+    };
+
+    this.validateModifyOffer = function(param, fnCallback) {
+        var data = {};
+        if (!demo) {
+            var target = "/sales/catalog/product/tmv/offer/validate-modification?" + param;
+            var request = {
+                "target": target
+            };
+            SystemService.callServicePost(request, null, function(result) {
+                fnCallback(result);
+            });
+        } else {
+            var url = "/app/jsonFiles/Offer/validate-modify-offer.json";
+            SystemService.getFileJson(url, function(response) {
+                fnCallback({
+                    status: true,
+                    data: response,
+                    error: "",
+                    msgErr: ""
+                });
             });
         }
     };
