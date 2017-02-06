@@ -1623,12 +1623,6 @@ mark,
     text-align: right;
 }
 
-@media (max-width: 992px) {
-    .text-right {
-        text-align: left !important;
-    }
-}
-
 .text-center,
 .form-buttons {
     text-align: center;
@@ -14863,10 +14857,13 @@ textarea.remark-message {
 }
 
 /*modal pdf width for 768px ::: 23-05-2016 //xsam32 */
+
+
 .custom-class {
     width: 65%;
     /*for monitorOrder detail modal*/
 }
+
 .split-leftside,
 .split-rightside {
     position: relative;
@@ -14879,45 +14876,71 @@ textarea.remark-message {
     overflow: auto;
     float: left;
 }
+
 .split-leftside {
     width: 40%;
 }
+
 .split-rightside {
     width: 60%;
 }
+
 .success {
     /*color: #fff !important;*/
     /*background-color: #5cb85c !important;*/
     background-color: #D2D2D2 !important;
     font-weight: bold;
 }
-.leyout-type {
+
+.leyout-type{
     color: #fff !important;
     background-color: #5cb85c !important;
     font-weight: bold;
 }
+
 .view2 {
     height: 500px !important;
     overflow: auto !important;
 }
-.orderLists:hover {
+
+
+.orderLists:hover{
     /*color: #5cb85c;*/
     font-weight: bold;
     /*background-color: #D2D2D2;*/
 }
-.wrapword {
-    white-space: -moz-pre-wrap !important;
-    /* Mozilla, since 1999 */
-    white-space: -webkit-pre-wrap;
-    /*Chrome & Safari */
-    white-space: -pre-wrap;
-    /* Opera 4-6 */
-    white-space: -o-pre-wrap;
-    /* Opera 7 */
-    white-space: pre-wrap;
-    /* css-3 */
-    word-wrap: break-word;
-    /* Internet Explorer 5.5+ */
-    word-break: break-all;
-    white-space: normal;
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/fontSimCard/icomoon.eot?zd6gwp');
+  src:  url('../fonts/fontSimCard/icomoon.eot?zd6gwp#iefix') format('embedded-opentype'),
+    url('../fonts/fontSimCard/icomoon.ttf?zd6gwp') format('truetype'),
+    url('../fonts/fontSimCard/icomoon.woff?zd6gwp') format('woff'),
+    url('../fonts/fontSimCard/icomoon.svg?zd6gwp#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sim-card:before {
+  content: "\e900";
+}
+
+.edit {
+    background-color: #ffa620;
+}
+
