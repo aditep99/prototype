@@ -1025,17 +1025,7 @@ smartApp.controller('DeleteFuturePricePlanController', function($scope,
         }, 1000);
     };
 
-    $scope.checkEffectivePrepaid = function(mobileServiceType, accountSubType) {
-        setTimeout(function() {
-            if (mobileServiceType && mobileServiceType == "PREPAID") {
-                //$('#divEffer').width(250);
-                $('#efferNow').removeClass('hidden');
-                $('#efferNow').addClass('active');
-            } else {
-                $scope.checkHybridStatus(accountSubType);
-            }
-        }, 1000);
-    };
+    
     $scope.onEffectiveDate = function(method) {
         if (method == 'IMMEDIATE') {
             $scope.data.orderRequest['order']['order-items'][0]['primary-order-data']['EFFECTIVE-DATE'] = SystemService.getDateDDMMYYYY("ENG");
@@ -1413,62 +1403,6 @@ smartApp.controller('DeleteFuturePricePlanController', function($scope,
         }
 
     };
-
-    $scope.multiSim = [{
-        "sim-serial": "896600401500000900",
-        "sim-type": "ซิมหลัก / Master SIM",
-        "alias-name": "iPhone 6s Nan",
-        "can-resume": false,
-        "ir-sim": true
-    }, {
-        "sim-serial": "896600401500004545",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "iPad for kid1",
-        "can-resume": false,
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500008991",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "can-resume": false,
-        "alias-name": "มิเตอร์ไฟบ้าน",
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500008999",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "iPad for kid2",
-        "can-resume": false,
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500007000",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "มิเตอร์ไฟคอนโด",
-        "can-resume": false,
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500008990",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "นาฬิกาพ่อ",
-        "can-resume": false,
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500007888",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "ประตูบ้านใหญ่",
-        "can-resume": false,
-        "ir-sim": false
-    }, {
-        "sim-serial": "996600401500008991",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "นาฬิกาแม่",
-        "can-resume": true,
-        "ir-sim": false
-    }, {
-        "sim-serial": "896600401500002345",
-        "sim-type": "ซิมเสริม / Minor SIM",
-        "alias-name": "ประตูบ้านเล็ก",
-        "can-resume": true,
-        "ir-sim": false
-    }];
 
     $scope.futurePricePlan = [{
         "offer-code": "65112",
